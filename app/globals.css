@@ -1,0 +1,508 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles - Apple-inspired minimalism */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-neutral-50 text-charcoal dark:bg-charcoal-dark dark:text-neutral-100 antialiased;
+    font-feature-settings: 'kern' 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 150ms ease, color 150ms ease;
+  }
+
+  /* Subtle focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-neutral-400 dark:outline-neon-cyan;
+  }
+
+  /* Prevent body scroll when sidebar is open */
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
+
+/* Utility classes for consistent spacing and motion */
+@layer utilities {
+  .transition-subtle {
+    @apply transition-all duration-150 ease-out;
+  }
+
+  .section-padding {
+    @apply px-6 sm:px-8 lg:px-12 xl:px-16;
+  }
+
+  .container-max {
+    @apply max-w-6xl mx-auto;
+  }
+
+  /* Safe area utilities for iOS */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  /* Touch manipulation for better mobile performance */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+}
+
+/* Sidebar animations - calm, Apple-like motion */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Sidebar component classes */
+.sidebar-backdrop {
+  animation: fadeIn 200ms ease-out;
+}
+
+.sidebar-panel {
+  animation: slideInLeft 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Hero section animations - subtle, breathing motion */
+/* Visible by default, animate on mount */
+.hero-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1),
+    transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Initial state only if JS hasn't run yet */
+.hero-section:not(.hero-visible) {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-section.hero-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-headline {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1) 50ms,
+    transform 300ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+}
+
+.hero-section:not(.hero-visible) .hero-headline {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-section.hero-visible .hero-headline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-capability {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1) 100ms,
+    transform 300ms cubic-bezier(0, 0, 0.2, 1) 100ms;
+}
+
+.hero-section:not(.hero-visible) .hero-capability {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-section.hero-visible .hero-capability {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-value {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1) 150ms,
+    transform 300ms cubic-bezier(0, 0, 0.2, 1) 150ms;
+}
+
+.hero-section:not(.hero-visible) .hero-value {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-section.hero-visible .hero-value {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms cubic-bezier(0, 0, 0.2, 1) 200ms,
+    transform 300ms cubic-bezier(0, 0, 0.2, 1) 200ms;
+}
+
+.hero-section:not(.hero-visible) .hero-actions {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.hero-section.hero-visible .hero-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Section fade-in animations - scroll-triggered */
+/* Progressive enhancement: visible by default, animate if JS is available */
+.section-fade {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms cubic-bezier(0, 0, 0.2, 1),
+    transform 400ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Only hide if JS is available and element is below fold */
+.section-fade:not(.section-visible) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.section-fade.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dark mode cinematic enhancements - Home page only */
+.dark .section-fade {
+  transition: opacity 400ms cubic-bezier(0, 0, 0.2, 1),
+    transform 400ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dark .section-fade.section-visible {
+  /* Subtle energy waking up effect - faster */
+  animation: darkSectionWake 600ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes darkSectionWake {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo styles - Premium, restrained */
+.logo-container {
+  /* Ensure logo never stretches or distorts */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container img {
+  /* Crisp rendering for SVG */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Prevent any accidental scaling */
+  max-width: 100%;
+  height: auto;
+}
+
+/* Neon accent utilities - Dark mode only */
+@layer utilities {
+  .neon-text {
+    @apply dark:text-neon-cyan;
+  }
+  
+  .neon-glow {
+    @apply dark:shadow-neon-glow;
+  }
+  
+  .neon-border {
+    @apply dark:border-neon-cyan dark:shadow-neon-soft;
+  }
+}
+
+/* Premium navbar - Dark mode frosted glass effect */
+.dark nav {
+  /* Multi-layer depth effect */
+  position: relative;
+}
+
+.dark nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(92, 225, 230, 0.02) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Navbar scroll behavior - subtle gravity effect */
+@media (prefers-reduced-motion: no-preference) {
+  header {
+    will-change: opacity, transform;
+  }
+}
+
+/* Dark mode cinematic background layers - Home page */
+.dark body {
+  background: linear-gradient(to bottom, #0d0d0d 0%, #0a0a0a 100%);
+  background-attachment: fixed;
+}
+
+/* Logo fade-in animation - subtle, confident */
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.logo-fade-in {
+  animation: logoFadeIn 600ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Services page - Unified animation system */
+
+/* Calm, intentional easing for cinematic motion */
+:root {
+  --services-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Zone A — Opening Philosophy: Optional micro fade-in */
+.services-zone-a {
+  opacity: 1;
+  animation: services-zone-a-fade 300ms var(--services-ease);
+}
+
+@keyframes services-zone-a-fade {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Zone B — Modes of Thinking: Smooth focus transitions */
+.service-mode {
+  will-change: opacity, transform, filter;
+  transform-origin: center;
+  /* Unified transition timing for calm, intentional motion */
+  transition: opacity 900ms var(--services-ease),
+    transform 900ms var(--services-ease),
+    filter 900ms var(--services-ease);
+}
+
+/* Reduce blur effects on mobile for better performance and readability */
+@media (max-width: 640px) {
+  .service-mode {
+    /* Faster transitions on mobile */
+    transition: opacity 600ms var(--services-ease),
+      transform 600ms var(--services-ease),
+      filter 600ms var(--services-ease);
+  }
+}
+
+/* First section - no transitions, instant visibility, always visible */
+.service-mode-instant {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Zone B — Phase indicator: Smooth reveal when focused */
+.services-phase-indicator {
+  transition: opacity 900ms var(--services-ease);
+}
+
+.services-phase-visible {
+  opacity: 1;
+}
+
+.services-phase-hidden {
+  opacity: 0;
+}
+
+/* Zone C — Closing Philosophy: Optional slow fade-in */
+/* Only animates when scrolled into view to avoid hydration issues */
+.services-zone-c {
+  opacity: 1;
+}
+
+.services-zone-c.services-zone-c-visible {
+  animation: services-zone-c-fade 1200ms var(--services-ease) both;
+}
+
+@keyframes services-zone-c-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* First section - always fully visible, no transitions, no animations */
+/* Above-the-fold content must be immediately visible and immutable */
+.service-mode.service-mode-first {
+  opacity: 1 !important;
+  transform: scale(1) !important;
+  filter: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+  visibility: visible !important;
+}
+
+/* About page — Editorial photo treatment */
+/* Photo as material, not content — reduced contrast, aggressive crop */
+.about-photo {
+  background: linear-gradient(135deg, #e5e5e5 0%, #d4d4d4 50%, #a3a3a3 100%);
+  opacity: 0.35;
+  filter: grayscale(100%) contrast(0.6) brightness(1.15) saturate(0.3);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 25% 100%);
+  /* Aggressive crop — partial face/shoulder visible */
+  background-size: 150% 150%;
+  background-position: 70% 50%;
+}
+
+.dark .about-photo {
+  background: linear-gradient(135deg, #404040 0%, #262626 50%, #171717 100%);
+  opacity: 0.25;
+  filter: grayscale(100%) contrast(0.4) brightness(0.85) saturate(0.2);
+}
+
+/* Mobile: Photo becomes background fragment, text scrolls independently */
+@media (max-width: 640px) {
+  .about-photo {
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+    opacity: 0.2;
+    background-size: 200% 200%;
+    background-position: 80% 50%;
+  }
+  
+  .dark .about-photo {
+    opacity: 0.15;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .about-photo {
+    opacity: 0.3;
+  }
+  
+  .dark .about-photo {
+    opacity: 0.22;
+  }
+}
+
+/* Loader - Apple-grade breathing animation */
+.loader-stroke {
+  @apply bg-current rounded-full;
+  color: #a3a3a3; /* neutral-400 */
+  position: relative;
+  overflow: hidden;
+  will-change: transform;
+  transform-origin: center;
+}
+
+.dark .loader-stroke {
+  color: #525252; /* neutral-600 */
+}
+
+/* Breathing animation - continuous, calm, purposeful */
+/* Like breathing: slow expansion and contraction, no sharp edges */
+/* Ease-in-out creates the natural breathing rhythm */
+/* Very subtle opacity range - almost invisible, but present */
+@keyframes loader-breathe {
+  0%, 100% {
+    transform: scaleX(0.55);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 0.75;
+  }
+}
+
+/* Reduced motion: minimal opacity pulse only, no transform */
+@keyframes loader-breathe-reduced {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .loader-stroke {
+    /* 3000ms creates a calm, meditative rhythm */
+    /* cubic-bezier(0.4, 0, 0.2, 1) is Apple's standard easing */
+    animation: loader-breathe 3000ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* Reduced motion: opacity-only, no transform */
+@media (prefers-reduced-motion: reduce) {
+  .loader-stroke {
+    animation: loader-breathe-reduced 3500ms ease-in-out infinite;
+    transform: scaleX(0.8);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .hero-section,
+  .hero-headline,
+  .hero-capability,
+  .hero-value,
+  .hero-actions,
+  .section-fade,
+  .logo-fade-in,
+  .animate-fade-in-up,
+  .service-mode,
+  .services-zone-a,
+  .services-zone-c,
+  .services-phase-indicator {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+    filter: none;
+  }
+}

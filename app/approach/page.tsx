@@ -39,7 +39,7 @@ export default function Approach() {
   return (
     <div className="min-h-screen bg-white dark:bg-charcoal-dark transition-colors duration-500">
       {/* Zone A — Opening Philosophy */}
-      <section className="section-padding px-8 sm:px-6 py-20 sm:py-32 lg:py-40 xl:py-48">
+      <section className="section-padding px-8 sm:px-6 pt-20 pb-20 sm:pt-24 sm:pb-32 lg:pt-24 lg:pb-40 xl:pt-24 xl:pb-48">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6 sm:space-y-8 services-zone-a">

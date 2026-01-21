@@ -11,18 +11,21 @@ export default function About() {
         </div>
 
         {/* Text Content — Typography-led, asymmetrical */}
-        <div className="relative z-10 section-padding py-20 sm:py-32 lg:py-40 xl:py-48 w-full">
+        <div className="relative z-10 section-padding pt-20 pb-20 sm:pt-24 sm:pb-32 lg:pt-24 lg:pb-40 xl:pt-24 xl:pb-48 w-full">
           <div className="container-max">
             <div className="max-w-2xl lg:max-w-3xl ml-0 lg:ml-8 xl:ml-16">
               <div className="space-y-8 sm:space-y-10 lg:space-y-12">
-                {/* Name — Large, quiet, confident */}
-                <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-medium text-charcoal dark:text-neutral-100 leading-[0.92] tracking-[-0.02em]">
-                  Vijay
+                {/* Name — Large, quiet, confident with neon animation */}
+                <h1 className="about-name text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[12rem] font-medium text-charcoal dark:text-neutral-100 leading-[0.92] tracking-[-0.02em] relative">
+                  <span className="relative z-10">Vijay</span>
+                  <span className="absolute inset-0 about-name-glow opacity-0 dark:opacity-100"></span>
                 </h1>
                 <div className="space-y-3 sm:space-y-4">
-                  {/* Role — Secondary, not subtitle-styled */}
+                  {/* Role — Secondary, not subtitle-styled with subtle neon */}
                   <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-neutral-600 dark:text-neutral-400 font-normal leading-tight">
-                    Solution Architect & Principal Engineer
+                    <span className="about-role dark:text-neon-cyan/90 dark:drop-shadow-[0_0_4px_rgba(92,225,230,0.15)]">
+                      Solution Architect & Principal Engineer
+                    </span>
                   </p>
                   {/* Experience — Contextual, not highlighted */}
                   <p className="text-base sm:text-lg md:text-xl text-neutral-500 dark:text-neutral-500 leading-relaxed max-w-xl">
@@ -40,8 +43,9 @@ export default function About() {
         <div className="container-max">
           <div className="max-w-3xl mx-auto">
             <div className="space-y-8 sm:space-y-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                How systems are approached
+              <h2 className="about-section-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 leading-tight relative">
+                <span className="relative z-10">How systems are approached</span>
+                <span className="absolute inset-0 about-title-underline opacity-0 dark:opacity-100"></span>
               </h2>
               <div className="space-y-6 text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
                 <p>
@@ -63,7 +67,7 @@ export default function About() {
       </section>
 
       {/* Experience — Narrative Form */}
-      <section className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800">
+      <section className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800 relative about-section-border">
         <div className="container-max">
           <div className="max-w-3xl mx-auto">
             <div className="space-y-8 sm:space-y-12">
@@ -93,44 +97,49 @@ export default function About() {
       </section>
 
       {/* Capability Areas */}
-      <section className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800">
+      <section className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800 relative about-section-border">
         <div className="container-max">
           <div className="max-w-3xl mx-auto">
             <div className="space-y-8 sm:space-y-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                Capability areas
+              <h2 className="about-section-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 leading-tight relative">
+                <span className="relative z-10">Capability areas</span>
+                <span className="absolute inset-0 about-title-underline opacity-0 dark:opacity-100"></span>
               </h2>
               <div className="space-y-10 sm:space-y-12">
-                <div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4">
-                    AI systems & RAG pipelines
+                <div className="about-capability-item">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4 relative">
+                    <span className="relative z-10">AI systems & RAG pipelines</span>
+                    <span className="absolute inset-0 about-capability-glow opacity-0 dark:opacity-100"></span>
                   </h3>
                   <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
                     Retrieval-augmented generation systems that provide accurate answers from enterprise documents. Agent workflows that automate complex processes. LLM integration with controlled prompts, clear context boundaries, and fallback mechanisms. Systems built with Python, using frameworks like LangChain where appropriate, designed for explainability and auditability.
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4">
-                    Full-stack application architecture
+                <div className="about-capability-item">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4 relative">
+                    <span className="relative z-10">Full-stack application architecture</span>
+                    <span className="absolute inset-0 about-capability-glow opacity-0 dark:opacity-100"></span>
                   </h3>
                   <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
                     End-to-end system design from user interface to data persistence. React and Next.js for frontend systems. TypeScript for type safety across the stack. Backend services in Python, Java, or Node.js depending on requirements. PostgreSQL or MongoDB for data persistence. Architecture that supports maintainability, testability, and scalability.
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4">
-                    Backend systems & APIs
+                <div className="about-capability-item">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4 relative">
+                    <span className="relative z-10">Backend systems & APIs</span>
+                    <span className="absolute inset-0 about-capability-glow opacity-0 dark:opacity-100"></span>
                   </h3>
                   <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
                     RESTful and GraphQL APIs designed for clarity and reliability. Systems that handle concurrent operations, maintain data integrity under load, and scale without requiring fundamental rewrites. Clean architecture, secure endpoints, and infrastructure that supports growth.
                   </p>
                 </div>
 
-                <div>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4">
-                    System design & integration
+                <div className="about-capability-item">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-medium text-charcoal dark:text-neutral-100 mb-4 relative">
+                    <span className="relative z-10">System design & integration</span>
+                    <span className="absolute inset-0 about-capability-glow opacity-0 dark:opacity-100"></span>
                   </h3>
                   <p className="text-base sm:text-lg md:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed">
                     Designing systems that integrate with existing infrastructure. Data synchronization across system boundaries. Working with enterprise systems and legacy platforms. Solutions that respect constraints while delivering value.
@@ -143,7 +152,7 @@ export default function About() {
       </section>
 
       {/* Closing Statement */}
-      <ClosingSection className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800">
+      <ClosingSection className="section-padding py-20 sm:py-32 lg:py-40 xl:py-48 border-t border-neutral-200 dark:border-neutral-800 relative about-section-border">
         <div className="container-max">
           <div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-neutral-600 dark:text-neutral-300 leading-relaxed">

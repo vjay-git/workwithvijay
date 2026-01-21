@@ -39,7 +39,7 @@ const projects: Project[] = [
 
 export default function Projects() {
   return (
-    <div className="section-padding py-16 lg:py-24">
+    <div className="section-padding pt-20 pb-16 sm:pt-24 sm:pb-16 lg:pt-24 lg:pb-24">
       <div className="container-max">
         <div className="max-w-4xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal mb-12">

@@ -40,7 +40,7 @@ export default function Services() {
   return (
     <div className="min-h-screen bg-white dark:bg-charcoal-dark transition-colors duration-500">
       {/* Zone A — Opening Philosophy */}
-      <section className="section-padding px-8 sm:px-6 py-20 sm:py-32 lg:py-40 xl:py-48">
+      <section className="section-padding px-8 sm:px-6 pt-20 pb-12 sm:pt-24 sm:pb-16 lg:pt-24 lg:pb-20 xl:pt-24 xl:pb-24">
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6 sm:space-y-8 services-zone-a">
@@ -73,7 +73,7 @@ export default function Services() {
       </section>
 
       {/* Zone C — Closing Philosophy */}
-      <ClosingSection className="section-padding px-8 sm:px-6 py-20 sm:py-32 lg:py-40 xl:py-48">
+      <ClosingSection className="section-padding px-8 sm:px-6 pt-16 pb-20 sm:pt-20 sm:pb-32 lg:pt-24 lg:pb-40 xl:pt-28 xl:pb-48">
         <div className="container-max">
           <div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-8">
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-neutral-600 dark:text-neutral-300 leading-relaxed">

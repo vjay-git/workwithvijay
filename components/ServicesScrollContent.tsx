@@ -66,7 +66,7 @@ export default function ServicesScrollContent({ modes }: ServicesScrollContentPr
   }, [])
 
   return (
-    <div className="space-y-[40vh] sm:space-y-[50vh] md:space-y-[60vh] lg:space-y-[70vh] xl:space-y-[80vh] py-20 sm:py-32">
+    <div className="space-y-16 sm:space-y-20 md:space-y-24 lg:space-y-28 xl:space-y-32 py-12 sm:py-16 md:py-20">
       {/* First Section — Static, immutable */}
       <article className="service-mode service-mode-first">
         <div className="space-y-8 sm:space-y-12 lg:space-y-16">

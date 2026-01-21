@@ -103,7 +103,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-neutral-50 text-charcoal dark:bg-charcoal-dark dark:text-neutral-100 transition-colors duration-300">
         <ThemeProvider>
           <Header />
-          <main className="flex-1 pt-14 md:pt-0">{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

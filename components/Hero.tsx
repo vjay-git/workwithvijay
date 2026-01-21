@@ -18,7 +18,7 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="hero-section section-padding py-20 sm:py-28 md:py-32 lg:py-40"
+      className="hero-section section-padding pt-10 pb-20 sm:pt-12 sm:pb-28 md:pt-12 md:pb-32 lg:pt-12 lg:pb-40"
       aria-label="Introduction"
     >
       <div className="container-max">
@@ -58,23 +58,25 @@ export default function Hero() {
             </Link>
           </div>
 
-          {/* Subtle About Link - Elegant, integrated */}
-          <div className="hero-actions mt-8 sm:mt-10">
+          {/* Subtle About Link - Elegant, integrated with neon animations */}
+          <div className="hero-actions mt-8 sm:mt-10 flex items-center">
             <Link
               href="/about"
               prefetch={true}
-              className="group inline-flex items-center gap-2 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 hover:text-charcoal dark:hover:text-neutral-200 transition-colors duration-150"
+              className="group about-engineer-link inline-flex items-center gap-2.5 sm:gap-3 text-sm sm:text-base text-neutral-500 dark:text-neutral-400 hover:text-charcoal dark:hover:text-neon-cyan transition-all duration-300 relative pl-0.5"
               aria-label="About the engineer"
             >
-              <span className="border-b border-transparent group-hover:border-neutral-400 dark:group-hover:border-neutral-500 transition-colors duration-300">
-                About the engineer
+              <span className="relative border-b border-transparent group-hover:border-neutral-400 dark:group-hover:border-neon-cyan/40 dark:group-hover:shadow-[0_1px_4px_rgba(92,225,230,0.2)] transition-all duration-300 pb-0.5 leading-relaxed">
+                <span className="relative z-10">About the engineer</span>
+                <span className="absolute inset-0 about-engineer-shimmer opacity-0 dark:group-hover:opacity-100"></span>
               </span>
               <svg
-                className="w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-300"
+                className="w-4 h-4 sm:w-[18px] sm:h-[18px] opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 dark:group-hover:text-neon-cyan dark:group-hover:drop-shadow-[0_0_4px_rgba(92,225,230,0.4)] flex-shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth={2}
+                aria-hidden="true"
               >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>

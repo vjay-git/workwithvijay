@@ -485,6 +485,331 @@
   }
 }
 
+/* About page - Neon animations and subtle alignments */
+
+/* Name glow animation */
+@keyframes about-name-pulse {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(92, 225, 230, 0.1),
+                 0 0 40px rgba(92, 225, 230, 0.05),
+                 0 0 60px rgba(92, 225, 230, 0.03);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(92, 225, 230, 0.2),
+                 0 0 60px rgba(92, 225, 230, 0.1),
+                 0 0 90px rgba(92, 225, 230, 0.05);
+  }
+}
+
+.about-name {
+  position: relative;
+  will-change: text-shadow;
+}
+
+.about-name-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dark .about-name {
+    animation: about-name-pulse 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* Role subtle pulse */
+@keyframes about-role-pulse {
+  0%, 100% {
+    text-shadow: 0 0 4px rgba(92, 225, 230, 0.1),
+                 0 0 8px rgba(92, 225, 230, 0.05);
+  }
+  50% {
+    text-shadow: 0 0 6px rgba(92, 225, 230, 0.2),
+                 0 0 12px rgba(92, 225, 230, 0.1);
+  }
+}
+
+.about-role {
+  transition: text-shadow 0.3s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dark .about-role {
+    animation: about-role-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* Section title underline animation */
+@keyframes about-title-underline-anim {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+}
+
+.about-section-title {
+  position: relative;
+  padding-bottom: 0.25rem;
+}
+
+.about-title-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(92, 225, 230, 0.3) 20%,
+    rgba(92, 225, 230, 0.5) 50%,
+    rgba(92, 225, 230, 0.3) 80%,
+    transparent 100%
+  );
+  transform-origin: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dark .about-title-underline {
+    animation: about-title-underline-anim 3s ease-in-out infinite;
+  }
+}
+
+/* Section border neon accent */
+.about-section-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(92, 225, 230, 0.1) 20%,
+    rgba(92, 225, 230, 0.2) 50%,
+    rgba(92, 225, 230, 0.1) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dark .about-section-border::before {
+  opacity: 1;
+}
+
+/* Capability items glow */
+@keyframes about-capability-glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 6px rgba(92, 225, 230, 0.15),
+                 0 0 12px rgba(92, 225, 230, 0.08);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(92, 225, 230, 0.25),
+                 0 0 20px rgba(92, 225, 230, 0.12),
+                 0 0 30px rgba(92, 225, 230, 0.06);
+  }
+}
+
+.about-capability-item {
+  position: relative;
+  transition: transform 0.3s ease, padding-left 0.3s ease;
+  padding-left: 0;
+}
+
+.about-capability-item:hover {
+  transform: translateX(4px);
+  padding-left: 8px;
+}
+
+@media (max-width: 640px) {
+  .about-capability-item:hover {
+    transform: translateX(2px);
+    padding-left: 4px;
+  }
+}
+
+.about-capability-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dark .about-capability-glow {
+    animation: about-capability-glow-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  
+  .dark .about-capability-item:hover .about-capability-glow {
+    animation: about-capability-glow-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+/* About the engineer link - Neon animations */
+.about-engineer-link {
+  position: relative;
+  will-change: transform, color;
+  align-items: baseline;
+}
+
+/* Subtle pulsing glow effect in dark mode */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 0 0 3px rgba(92, 225, 230, 0.15),
+                 0 0 6px rgba(92, 225, 230, 0.08);
+  }
+  50% {
+    text-shadow: 0 0 6px rgba(92, 225, 230, 0.3),
+                 0 0 10px rgba(92, 225, 230, 0.15),
+                 0 0 14px rgba(92, 225, 230, 0.08);
+  }
+}
+
+/* Shimmer effect on hover */
+@keyframes neon-shimmer {
+  0% {
+    background-position: -200% 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+}
+
+.about-engineer-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(92, 225, 230, 0.08) 40%,
+    rgba(92, 225, 230, 0.15) 50%,
+    rgba(92, 225, 230, 0.08) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  pointer-events: none;
+  border-radius: 1px;
+  margin-top: -1px;
+  height: calc(100% + 2px);
+}
+
+/* Subtle continuous pulse in dark mode */
+@media (prefers-reduced-motion: no-preference) {
+  .dark .about-engineer-link {
+    animation: neon-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  
+  .dark .about-engineer-link:hover {
+    animation: neon-pulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  
+  .dark .about-engineer-link:hover .about-engineer-shimmer {
+    animation: neon-shimmer 2.5s ease-in-out infinite;
+  }
+}
+
+/* Enhanced hover state with neon glow */
+.dark .about-engineer-link:hover {
+  text-shadow: 0 0 6px rgba(92, 225, 230, 0.4),
+               0 0 10px rgba(92, 225, 230, 0.25),
+               0 0 16px rgba(92, 225, 230, 0.12);
+}
+
+/* Work page — System narratives with focus & reveal */
+.work-system {
+  will-change: opacity, transform, filter;
+  transform-origin: center;
+  transition: opacity 900ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    transform 900ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    filter 900ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Reduce blur effects on mobile for better performance */
+@media (max-width: 640px) {
+  .work-system {
+    transition: opacity 600ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      transform 600ms cubic-bezier(0.25, 0.1, 0.25, 1),
+      filter 600ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+/* Contact page — Embedded form inputs */
+.contact-input {
+  transition: border-color 200ms ease;
+}
+
+.contact-input:focus {
+  outline: none;
+}
+
+/* Ensure inputs feel embedded, not outlined */
+input[type="text"],
+input[type="email"],
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Parallax system — Performance optimizations */
+.parallax-layer {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Disable parallax transforms when reduced motion is preferred */
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    transform: none !important;
+    will-change: auto;
+  }
+}
+
+/* Navigation underline - thin edges, thick middle */
+.nav-underline {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 15%,
+    currentColor 30%,
+    currentColor 70%,
+    transparent 85%,
+    transparent 100%
+  );
+  height: 1px;
+}
+
+.dark .nav-underline {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 15%,
+    #5ce1e6 30%,
+    #5ce1e6 70%,
+    transparent 85%,
+    transparent 100%
+  );
+}
+
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .hero-section,
@@ -498,11 +823,22 @@
   .service-mode,
   .services-zone-a,
   .services-zone-c,
-  .services-phase-indicator {
+  .services-phase-indicator,
+  .about-engineer-link,
+  .about-engineer-shimmer,
+  .about-name,
+  .about-name-glow,
+  .about-role,
+  .about-section-title,
+  .about-title-underline,
+  .about-capability-item,
+  .about-capability-glow,
+  .work-system {
     opacity: 1;
     transform: none;
     transition: none;
     animation: none;
     filter: none;
+    text-shadow: none;
   }
 }

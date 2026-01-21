@@ -125,7 +125,7 @@ export default function Header() {
                       prefetch={true}
                       className={`text-sm transition-colors duration-150 relative focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50 ${
                         isActive(item.href)
-                          ? 'text-charcoal dark:text-neutral-100 font-medium dark:after:content-[""] dark:after:absolute dark:after:bottom-[-4px] dark:after:left-0 dark:after:right-0 dark:after:h-[1px] dark:after:bg-neon-cyan dark:after:opacity-50 dark:after:shadow-[0_0_3px_rgba(92,225,230,0.15)]'
+                          ? 'text-charcoal dark:text-neutral-100 font-medium after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 nav-underline'
                           : 'text-neutral-600 dark:text-neutral-400 hover:text-charcoal dark:hover:text-neutral-200'
                       }`}
                       aria-current={isActive(item.href) ? 'page' : undefined}

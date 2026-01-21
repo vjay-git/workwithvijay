@@ -1,17 +1,32 @@
+'use client'
+
 import Hero from '@/components/Hero'
 import Link from 'next/link'
 import AnimatedSection from '@/components/AnimatedSection'
+import ParallaxBackground from '@/components/ParallaxBackground'
+import ParallaxLayer from '@/components/ParallaxLayer'
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <Hero />
+    <div className="flex flex-col relative">
+      {/* Parallax Background Layers - Only visible in dark mode */}
+      <div className="hidden dark:block fixed inset-0 pointer-events-none z-0">
+        <ParallaxBackground />
+      </div>
+
+      {/* Content - Above parallax layers */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <Hero />
 
       {/* What We Do - Capability Snapshot */}
       <AnimatedSection
-        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-white dark:bg-charcoal-dark transition-colors duration-300 relative dark:before:content-[''] dark:before:absolute dark:before:top-0 dark:before:left-0 dark:before:right-0 dark:before:h-[1px] dark:before:bg-gradient-to-r dark:before:from-transparent dark:before:via-neon-cyan/30 dark:before:to-transparent"
+        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-white dark:bg-charcoal-dark transition-colors duration-300 relative"
       >
+        {/* Parallax Decorative Separator */}
+        <ParallaxLayer speed={0.02} mobileSpeed={0.006} className="absolute top-0 left-0 right-0 h-px pointer-events-none">
+          <div className="h-full bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent dark:opacity-100 opacity-0"></div>
+        </ParallaxLayer>
         <div className="container-max">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-16 lg:mb-20 text-center tracking-tight">
@@ -57,8 +72,12 @@ export default function Home() {
 
       {/* Flagship Solution - SAP Data Chatbot */}
       <AnimatedSection
-        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 relative dark:before:content-[''] dark:before:absolute dark:before:top-0 dark:before:left-0 dark:before:right-0 dark:before:h-[1px] dark:before:bg-gradient-to-r dark:before:from-transparent dark:before:via-neon-cyan/20 dark:before:to-transparent"
+        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 relative"
       >
+        {/* Parallax Decorative Separator */}
+        <ParallaxLayer speed={0.018} mobileSpeed={0.005} className="absolute top-0 left-0 right-0 h-px pointer-events-none">
+          <div className="h-full bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent dark:opacity-100 opacity-0"></div>
+        </ParallaxLayer>
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6">
@@ -148,8 +167,12 @@ export default function Home() {
 
       {/* Proof of Seriousness */}
       <AnimatedSection
-        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 relative dark:before:content-[''] dark:before:absolute dark:before:top-0 dark:before:left-0 dark:before:right-0 dark:before:h-[1px] dark:before:bg-gradient-to-r dark:before:from-transparent dark:before:via-neon-cyan/20 dark:before:to-transparent"
+        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 relative"
       >
+        {/* Parallax Decorative Separator */}
+        <ParallaxLayer speed={0.016} mobileSpeed={0.005} className="absolute top-0 left-0 right-0 h-px pointer-events-none">
+          <div className="h-full bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent dark:opacity-100 opacity-0"></div>
+        </ParallaxLayer>
         <div className="container-max">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-12 lg:mb-16 text-center tracking-tight">
@@ -198,8 +221,12 @@ export default function Home() {
 
       {/* Contact / CTA */}
       <AnimatedSection
-        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-white dark:bg-charcoal-dark transition-colors duration-300 relative dark:before:content-[''] dark:before:absolute dark:before:top-0 dark:before:left-0 dark:before:right-0 dark:before:h-[1px] dark:before:bg-gradient-to-r dark:before:from-transparent dark:before:via-neon-cyan/30 dark:before:to-transparent"
+        className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-white dark:bg-charcoal-dark transition-colors duration-300 relative"
       >
+        {/* Parallax Decorative Separator */}
+        <ParallaxLayer speed={0.02} mobileSpeed={0.006} className="absolute top-0 left-0 right-0 h-px pointer-events-none">
+          <div className="h-full bg-gradient-to-r from-transparent via-neon-cyan/30 to-transparent dark:opacity-100 opacity-0"></div>
+        </ParallaxLayer>
         <div className="container-max">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-8 lg:mb-10 leading-tight tracking-tight">
@@ -227,6 +254,7 @@ export default function Home() {
           </div>
         </div>
       </AnimatedSection>
+      </div>
     </div>
   )
 }

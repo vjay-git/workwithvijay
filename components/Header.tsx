@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Sidebar from './Sidebar'
 import Logo from './Logo'
 import ThemeToggle from './ThemeToggle'
@@ -13,6 +13,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -24,7 +26,12 @@ export default function Header() {
 
   const isActive = (href: string) => pathname === href
 
-  // Handle scroll behavior: subtle recede on scroll down, reappear on scroll up (like gravity)
+  // Mount animation
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Handle scroll behavior with smooth transitions
   useEffect(() => {
     let ticking = false
     
@@ -34,15 +41,12 @@ export default function Header() {
           const currentScrollY = window.scrollY
           const scrollDelta = currentScrollY - lastScrollY
 
-          // Check if scrolled past threshold - controls logo centering
-          setIsScrolled(currentScrollY > 10)
+          setIsScrolled(currentScrollY > 20)
 
-          // Subtle recede on scroll down, reappear on scroll up
+          // Smooth visibility transitions
           if (scrollDelta > 0 && currentScrollY > 100) {
-            // Scrolling down past threshold - subtly recede (never fully hide)
             setIsVisible(false)
           } else if (scrollDelta < 0 || currentScrollY < 50) {
-            // Scrolling up or near top - fully visible
             setIsVisible(true)
           }
 
@@ -59,39 +63,46 @@ export default function Header() {
 
   return (
     <>
-      {/* Premium navbar - psychological anchor, floating pane of glass */}
+      {/* Premium Futuristic Navbar */}
       <header 
-        className={`sticky top-0 left-0 right-0 z-30 transition-all duration-200 ease-out ${
+        className={`navbar-header sticky top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
           isVisible 
             ? 'opacity-100 translate-y-0' 
-            : 'opacity-85 translate-y-[-4px]'
+            : 'opacity-0 -translate-y-full'
         }`}
       >
         <nav
-          className={`relative border-b transition-all duration-200 ease-out ${
+          ref={navRef}
+          className={`navbar-glass relative transition-all duration-500 ease-out ${
             isScrolled
-              ? 'bg-neutral-50/95 backdrop-blur-md border-neutral-200/80 dark:bg-charcoal-dark/75 dark:backdrop-blur-2xl dark:border-neutral-800/30 dark:shadow-[0_1px_0_rgba(92,225,230,0.03),0_4px_24px_rgba(0,0,0,0.4)]'
-              : 'bg-neutral-50/80 backdrop-blur-sm border-neutral-200 dark:bg-charcoal-dark/65 dark:backdrop-blur-xl dark:border-neutral-800/20 dark:shadow-[0_1px_0_rgba(92,225,230,0.02),0_2px_16px_rgba(0,0,0,0.3)]'
+              ? 'navbar-scrolled'
+              : 'navbar-top'
           }`}
           aria-label="Main navigation"
         >
+          {/* Ambient glow effect - bottom border */}
+          <div className="navbar-glow absolute bottom-0 left-0 right-0 h-px"></div>
+          
+          {/* Gradient overlay for depth */}
+          <div className="navbar-gradient absolute inset-0 pointer-events-none"></div>
+
           {/* Safe area top padding for iOS notch */}
           <div className="pt-safe">
-            <div className="flex items-center justify-between h-20 md:h-24 px-4 md:px-6">
-              {/* Left: Mobile menu trigger - hidden when scrolled */}
+            <div className="flex items-center justify-between h-20 md:h-24 px-4 md:px-6 lg:px-8">
+              {/* Left: Mobile menu trigger */}
               <div className={`flex items-center transition-all duration-500 ease-out ${
                 isScrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'
               }`}>
                 <button
                   type="button"
-                  className="md:hidden p-2 -ml-2 text-neutral-600 hover:text-charcoal dark:text-neutral-400 dark:hover:text-neutral-200 transition-colors duration-200 touch-manipulation focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50"
+                  className="navbar-menu-btn md:hidden p-2 -ml-2 rounded-lg transition-all duration-300 touch-manipulation focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50"
                   aria-expanded={sidebarOpen}
                   aria-label="Open navigation menu"
                   aria-controls="sidebar-navigation"
                   onClick={() => setSidebarOpen(true)}
                 >
                   <svg
-                    className="h-5 w-5"
+                    className="h-5 w-5 text-neutral-600 dark:text-neutral-400 transition-colors duration-300"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -104,57 +115,86 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Center: Logo - quiet, restrained, optical alignment */}
-              <div className={`flex-1 flex transition-all duration-200 ease-out ${
+              {/* Center: Logo with pulse animation */}
+              <div className={`flex-1 flex transition-all duration-500 ease-out ${
                 isScrolled 
                   ? 'justify-center' 
                   : 'justify-center md:justify-start'
               }`}>
-                <Logo size="md" variant="navbar" className="flex-shrink-0" />
+                <div className={`navbar-logo ${mounted ? 'navbar-logo-visible' : ''}`}>
+                  <Logo size="md" variant="navbar" className="flex-shrink-0 navbar-logo-pulse" />
+                </div>
               </div>
 
-              {/* Right: Desktop Navigation + Theme Toggle + CTA - hidden when scrolled */}
-              <div className={`hidden md:flex items-center gap-6 transition-all duration-200 ${
+              {/* Right: Desktop Navigation + Theme Toggle + CTA */}
+              <div className={`hidden md:flex items-center gap-4 lg:gap-6 transition-all duration-500 ${
                 isScrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'
               }`}>
-                <nav className="flex items-center space-x-6" aria-label="Desktop navigation">
-                  {navigation.map((item) => (
+                <nav className="flex items-center space-x-1 lg:space-x-2" aria-label="Desktop navigation">
+                  {navigation.map((item, index) => (
                     <Link
                       key={item.name}
                       href={item.href}
                       prefetch={true}
-                      className={`text-sm transition-colors duration-150 relative focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50 ${
-                        isActive(item.href)
-                          ? 'text-charcoal dark:text-neutral-100 font-medium after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:right-0 nav-underline'
-                          : 'text-neutral-600 dark:text-neutral-400 hover:text-charcoal dark:hover:text-neutral-200'
+                      className={`navbar-link group relative px-3 py-2 rounded-lg transition-all duration-300 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50 ${
+                        mounted ? 'navbar-link-visible' : 'navbar-link-hidden'
                       }`}
+                      style={{ 
+                        animationDelay: `${index * 50}ms`,
+                        transitionDelay: `${index * 50}ms`
+                      }}
                       aria-current={isActive(item.href) ? 'page' : undefined}
                     >
-                      {item.name}
+                      <span className={`relative z-10 text-sm font-medium transition-all duration-300 ${
+                        isActive(item.href)
+                          ? 'text-charcoal dark:text-neutral-100 dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.5)]'
+                          : 'text-neutral-600 dark:text-neutral-400 dark:group-hover:text-neon-cyan'
+                      }`}>
+                        {item.name}
+                      </span>
+                      
+                      {/* Active underline with glow */}
+                      {isActive(item.href) && (
+                        <span className="navbar-active-indicator absolute bottom-0 left-0 right-0 h-px"></span>
+                      )}
+                      
+                      {/* Hover background glow */}
+                      <span className="navbar-hover-bg absolute inset-0 rounded-lg opacity-0 dark:group-hover:opacity-100 transition-opacity duration-300"></span>
                     </Link>
                   ))}
                 </nav>
-                <ThemeToggle />
+                
+                {/* Theme Toggle */}
+                <div className={`${mounted ? 'navbar-link-visible' : 'navbar-link-hidden'}`} style={{ transitionDelay: '250ms' }}>
+                  <ThemeToggle />
+                </div>
+                
+                {/* CTA Button */}
                 <Link
                   href="/contact"
                   prefetch={true}
-                  className="text-sm text-neutral-700 dark:text-neutral-300 dark:hover:text-neon-cyan/80 hover:text-charcoal dark:transition-colors duration-150 font-medium touch-manipulation"
-                  aria-label="Discuss your system"
+                  className={`navbar-cta group relative px-5 py-2.5 rounded-lg font-medium text-sm transition-all duration-300 touch-manipulation focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50 ${
+                    mounted ? 'navbar-link-visible' : 'navbar-link-hidden'
+                  }`}
+                  style={{ transitionDelay: '300ms' }}
+                  aria-label="Start a project"
                 >
-                  Discuss your system
+                  <span className="relative z-10">Start Project</span>
+                  <span className="navbar-cta-glow absolute inset-0 rounded-lg opacity-0 dark:group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="navbar-cta-border absolute inset-0 rounded-lg"></span>
                 </Link>
               </div>
 
-              {/* Mobile: Theme Toggle + CTA - hidden when scrolled */}
-              <div className={`md:hidden flex items-center gap-2 transition-all duration-200 ${
+              {/* Mobile: Theme Toggle + CTA */}
+              <div className={`md:hidden flex items-center gap-3 transition-all duration-500 ${
                 isScrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'
               }`}>
                 <ThemeToggle />
                 <Link
                   href="/contact"
                   prefetch={true}
-                  className="text-sm text-neutral-700 dark:text-neutral-300 dark:hover:text-neon-cyan/80 hover:text-charcoal dark:transition-colors duration-150 font-medium touch-manipulation"
-                  aria-label="Discuss your system"
+                  className="text-sm text-neutral-700 dark:text-neutral-300 dark:hover:text-neon-cyan hover:text-charcoal transition-all duration-300 font-medium touch-manipulation px-3 py-2 rounded-lg dark:hover:bg-neon-cyan/5"
+                  aria-label="Contact"
                 >
                   Contact
                 </Link>

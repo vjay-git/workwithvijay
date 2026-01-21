@@ -8,14 +8,16 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative p-2 text-neutral-600 hover:text-charcoal dark:text-neutral-400 dark:hover:text-neutral-200 transition-all duration-300 touch-manipulation focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan"
+      className="theme-toggle group relative p-2.5 rounded-lg text-neutral-600 hover:text-charcoal dark:text-neutral-400 dark:hover:text-neon-cyan transition-all duration-300 touch-manipulation focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-400 dark:focus-visible:outline-neon-cyan/50 hover:bg-neutral-100 dark:hover:bg-neon-cyan/5 dark:hover:shadow-[0_0_12px_rgba(92,225,230,0.15)]"
       aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
     >
       <div className="relative w-5 h-5">
         {/* Sun icon - visible in light mode */}
         <svg
-          className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${
-            theme === 'light' ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'
+          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ease-out ${
+            theme === 'light' 
+              ? 'opacity-100 rotate-0 scale-100' 
+              : 'opacity-0 rotate-180 scale-0'
           }`}
           fill="none"
           viewBox="0 0 24 24"
@@ -31,8 +33,10 @@ export default function ThemeToggle() {
         
         {/* Moon icon - visible in dark mode */}
         <svg
-          className={`absolute inset-0 w-5 h-5 transition-all duration-300 ${
-            theme === 'dark' ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-90'
+          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ease-out dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.4)] ${
+            theme === 'dark' 
+              ? 'opacity-100 rotate-0 scale-100' 
+              : 'opacity-0 -rotate-180 scale-0'
           }`}
           fill="none"
           viewBox="0 0 24 24"
@@ -46,6 +50,9 @@ export default function ThemeToggle() {
           />
         </svg>
       </div>
+      
+      {/* Glow effect on hover (dark mode) */}
+      <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-neon-cyan/0 to-transparent dark:group-hover:via-neon-cyan/10 opacity-0 dark:group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></span>
     </button>
   )
 }

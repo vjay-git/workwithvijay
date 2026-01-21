@@ -1034,6 +1034,13 @@ textarea {
     transform: none !important;
     will-change: auto;
   }
+  
+  /* Disable SVG animations */
+  svg animate,
+  svg animateTransform,
+  svg animateMotion {
+    animation: none !important;
+  }
 }
 
 /* Legacy nav-underline (kept for compatibility) */

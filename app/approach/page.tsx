@@ -1,5 +1,6 @@
 import ApproachScrollContent from '@/components/ApproachScrollContent'
 import ClosingSection from '@/components/ClosingSection'
+import { AnimatedDataFlow, AnimatedSystemLayers, AnimatedNeuralNetwork, AnimatedCodeFlow } from '@/components/ApproachAnimations'
 
 const principles = [
     {
@@ -38,25 +39,59 @@ const principles = [
 export default function Approach() {
   return (
     <div className="min-h-screen bg-white dark:bg-charcoal-dark transition-colors duration-500">
-      {/* Zone A — Opening Philosophy */}
-      <section className="section-padding px-8 sm:px-6 pt-20 pb-20 sm:pt-24 sm:pb-32 lg:pt-24 lg:pb-40 xl:pt-24 xl:pb-48">
+      {/* Zone A — Opening Philosophy with Animated Visuals */}
+      <section className="section-padding px-8 sm:px-6 pt-12 pb-12 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20">
         <div className="container-max">
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-6 sm:space-y-8 services-zone-a">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal dark:text-neutral-100 leading-[1.1] tracking-tight">
-                How we{' '}
-                <br className="hidden sm:block" />
-                <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.15)]">
-                  approach systems
-                </span>
-              </h1>
-              <p className="text-lg sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                These are not methodologies. They are principles, revealed in sequence.
-                <br className="hidden sm:block" />
-                <span className="text-base sm:text-lg text-neutral-500 dark:text-neutral-500 mt-2 block">
-                  Scroll to explore each principle.
-                </span>
-              </p>
+          <div className="max-w-6xl mx-auto">
+            {/* Header Content */}
+            <div className="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+              <div className="space-y-6 sm:space-y-8 services-zone-a">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal dark:text-neutral-100 leading-[1.1] tracking-tight">
+                  How we{' '}
+                  <br className="hidden sm:block" />
+                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.15)]">
+                    approach systems
+                  </span>
+                </h1>
+                <p className="text-lg sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
+                  These are not methodologies. They are principles, revealed in sequence.
+                  <br className="hidden sm:block" />
+                  <span className="text-base sm:text-lg text-neutral-500 dark:text-neutral-500 mt-2 block">
+                    Scroll to explore each principle.
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* Animated Visuals Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-12">
+              <div className="flex flex-col items-center justify-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900/30 dark:to-neutral-800/20">
+                <AnimatedDataFlow className="w-full max-w-[120px] sm:max-w-[140px]" />
+                <p className="mt-4 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center font-medium">
+                  Data Flow
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center justify-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900/30 dark:to-neutral-800/20">
+                <AnimatedSystemLayers className="w-full max-w-[120px] sm:max-w-[140px]" />
+                <p className="mt-4 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center font-medium">
+                  Architecture
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center justify-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900/30 dark:to-neutral-800/20">
+                <AnimatedNeuralNetwork className="w-full max-w-[120px] sm:max-w-[140px]" />
+                <p className="mt-4 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center font-medium">
+                  AI Systems
+                </p>
+              </div>
+              
+              <div className="flex flex-col items-center justify-center p-6 sm:p-8 rounded-xl bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-900/30 dark:to-neutral-800/20">
+                <AnimatedCodeFlow className="w-full max-w-[120px] sm:max-w-[140px]" />
+                <p className="mt-4 text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 text-center font-medium">
+                  Engineering
+                </p>
+              </div>
             </div>
           </div>
         </div>

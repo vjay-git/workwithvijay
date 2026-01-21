@@ -30,39 +30,42 @@ export default function Home() {
         <div className="container-max">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-16 lg:mb-20 text-center tracking-tight">
-              What we do
+              Full Stack AI Applications
             </h2>
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed text-center mb-16 lg:mb-20 max-w-3xl mx-auto">
+              We build complete AI-powered applications from frontend to backend. Every project leverages the latest technologies and best practices for production-ready systems.
+            </p>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               <div className="space-y-3">
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                  Product Engineering
+                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">RAG Systems</span> & Knowledge Bases
                 </h3>
                 <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-md">
-                  Full stack applications with production-grade architecture. Secure APIs, scalable infrastructure, and complete ownership from frontend to backend.
+                  Retrieval-augmented generation systems with vector databases, semantic search, and controlled LLM integration. Built for accuracy, context awareness, and enterprise security.
                 </p>
               </div>
               <div className="space-y-3">
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">Enterprise AI</span>{' '}& Data Systems
+                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">AI Agents</span> & Workflows
                 </h3>
                 <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-md">
-                  RAG pipelines, vector databases, and controlled LLM integrations designed for enterprise data. Built for accuracy, security, and real-world use.
+                  Multi-agent systems with orchestration, decision boundaries, and autonomous workflows. Includes fallback mechanisms, error handling, and comprehensive audit trails.
                 </p>
               </div>
               <div className="space-y-3">
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                  SAP AI Chatbots
+                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">Enterprise Integrations</span>
                 </h3>
                 <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-md">
-                  Natural language interfaces to SAP data. Convert questions to SQL queries with safety guardrails, access controls, and enterprise-ready deployment.
+                  Natural language interfaces to enterprise systems, text-to-SQL conversion, and secure data access. SAP, ERP, and database integrations with safety guardrails.
                 </p>
               </div>
               <div className="space-y-3">
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
-                  AI Agents & Automation
+                  <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">Modern Tech Stack</span>
                 </h3>
                 <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-md">
-                  Agent-based workflows that automate complex processes. Clear decision boundaries, fallback mechanisms, and comprehensive audit trails.
+                  Next.js, React, TypeScript, Python, FastAPI, PostgreSQL, vector databases, and cloud infrastructure. We use the latest tools and frameworks for optimal performance.
                 </p>
               </div>
             </div>
@@ -70,7 +73,7 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      {/* Flagship Solution - SAP Data Chatbot */}
+      {/* Tech Stack & Approach */}
       <AnimatedSection
         className="section-fade section-padding py-24 sm:py-32 lg:py-40 bg-neutral-50 dark:bg-neutral-900 transition-colors duration-300 relative"
       >
@@ -79,39 +82,49 @@ export default function Home() {
           <div className="h-full bg-gradient-to-r from-transparent via-neon-cyan/20 to-transparent dark:opacity-100 opacity-0"></div>
         </ParallaxLayer>
         <div className="container-max">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-6">
-              <span className="text-xs sm:text-sm font-medium text-neutral-500 dark:text-neutral-500 dark:text-neon-cyan/60 uppercase tracking-wider">
-                Flagship Solution
-              </span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-12 lg:mb-16 leading-tight tracking-tight">
-              <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">SAP Data Chatbot</span>
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium text-charcoal dark:text-neutral-100 mb-12 lg:mb-16 text-center tracking-tight">
+              Built with <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">Latest Technologies</span>
             </h2>
-            <div className="space-y-10 lg:space-y-12">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 mb-4 leading-tight">
-                  Problem
+            <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed text-center mb-12 lg:mb-16 max-w-3xl mx-auto">
+              We stay current with the latest frameworks, libraries, and AI tools to deliver cutting-edge solutions.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
+              <div className="space-y-4">
+                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
+                  Frontend
                 </h3>
-                <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                  SAP data is hard to access. Business users need answers from complex ERP systems, but SQL queries require technical expertise. Traditional reporting tools are slow and inflexible.
-                </p>
+                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
+                  <li>Next.js 14+ (App Router)</li>
+                  <li>React 18+ with TypeScript</li>
+                  <li>Tailwind CSS</li>
+                  <li>Server Components</li>
+                  <li>Modern UI patterns</li>
+                </ul>
               </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 mb-4 leading-tight">
-                  Solution
+              <div className="space-y-4">
+                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
+                  Backend & AI
                 </h3>
-                <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                  Natural language interface that converts questions to SQL queries. Built with safety guardrails, access controls, query validation, and explainable results. Enterprise-ready deployment with monitoring and audit trails.
-                </p>
+                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
+                  <li>Python & FastAPI</li>
+                  <li>LLM APIs (OpenAI, Anthropic)</li>
+                  <li>Vector databases (Pinecone, Weaviate)</li>
+                  <li>LangChain & LlamaIndex</li>
+                  <li>REST & GraphQL APIs</li>
+                </ul>
               </div>
-              <div>
-                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 mb-4 leading-tight">
-                  Enterprise Ready
+              <div className="space-y-4">
+                <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
+                  Infrastructure
                 </h3>
-                <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-2xl">
-                  Security-first design with role-based access, query sanitization, and result filtering. Production monitoring, error handling, and compliance-ready architecture.
-                </p>
+                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
+                  <li>PostgreSQL & Redis</li>
+                  <li>Cloud deployment (AWS, Vercel)</li>
+                  <li>Docker & containerization</li>
+                  <li>CI/CD pipelines</li>
+                  <li>Monitoring & observability</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -233,7 +246,7 @@ export default function Home() {
               Let's discuss your{' '}<span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">system</span>
             </h2>
             <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 leading-relaxed mb-12 lg:mb-16 max-w-xl mx-auto">
-              Whether you're exploring AI features, scaling an existing system, or building something new, we help teams build intelligent products that are reliable, explainable, and production-ready.
+              From RAG systems to AI agents, from enterprise integrations to custom applications—we build full-stack AI solutions using the latest technologies. Let's discuss your project.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
               <Link

@@ -25,17 +25,17 @@ export default function Hero() {
         <div className="max-w-3xl mx-auto">
           {/* Identity - Primary */}
           <h1 className="hero-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal dark:text-neutral-100 leading-[1.05] mb-8 sm:mb-10 lg:mb-12 tracking-tight">
-            Product Engineering & <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">Enterprise AI</span>
+            Product Engineering & <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">Enterprise Agentic AI</span>
           </h1>
 
           {/* Secondary - Capabilities */}
           <p className="hero-capability text-lg sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-8 sm:mb-10 leading-relaxed">
-            Full stack development · SAP data intelligence · Text-to-SQL · <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_4px_rgba(92,225,230,0.2)]">RAG & AI agents</span>
+            Modern tech stack · <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_4px_rgba(92,225,230,0.2)]">RAG systems</span> · AI agents · LLM integrations · Vector databases · Production-ready architecture
           </p>
 
           {/* Value - What we do */}
           <p className="hero-value text-xl sm:text-2xl text-neutral-700 dark:text-neutral-300 mb-12 sm:mb-16 leading-relaxed max-w-2xl">
-            We build production-ready systems for teams that need reliable AI, secure data access, and scalable architecture.
+            We build end-to-end AI applications using the latest technologies. From intelligent frontends to scalable backends, we deliver production-ready systems that solve real business problems.
           </p>
 
           {/* Primary Actions - Thumb-reachable */}

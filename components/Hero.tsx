@@ -25,7 +25,7 @@ export default function Hero() {
         <div className="max-w-3xl mx-auto">
           {/* Identity - Primary */}
           <h1 className="hero-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal dark:text-neutral-100 leading-[1.05] mb-8 sm:mb-10 lg:mb-12 tracking-tight">
-            Product Engineering & <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">Enterprise Agentic AI</span>
+            Product & <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">AI Engineering Studio</span>
           </h1>
 
           {/* Secondary - Capabilities */}

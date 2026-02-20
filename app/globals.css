@@ -5,7 +5,7 @@
 /* Base styles - Apple-inspired minimalism */
 @layer base {
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth overflow-x-hidden;
   }
 
   body {

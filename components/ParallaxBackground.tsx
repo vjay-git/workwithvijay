@@ -12,7 +12,7 @@ interface ParallaxBackgroundProps {
  */
 export default function ParallaxBackground({ className = '' }: ParallaxBackgroundProps) {
   return (
-    <div className={`fixed inset-0 pointer-events-none z-0 ${className}`}>
+    <div className={`fixed inset-0 overflow-hidden pointer-events-none z-0 ${className}`}>
       {/* Background Layer - Deepest (4-6% speed) */}
       <ParallaxLayer speed={0.05} mobileSpeed={0.015}>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-charcoal-dark to-charcoal-dark"></div>

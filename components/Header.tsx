@@ -90,7 +90,7 @@ export default function Header() {
           <div className="pt-safe">
             <div className="flex items-center justify-between h-20 md:h-24 px-4 md:px-6 lg:px-8">
               {/* Left: Mobile menu trigger */}
-              <div className={`flex items-center transition-all duration-500 ease-out ${
+              <div className={`flex items-center overflow-hidden transition-all duration-500 ease-out ${
                 isScrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'
               }`}>
                 <button
@@ -186,7 +186,7 @@ export default function Header() {
               </div>
 
               {/* Mobile: Theme Toggle + CTA */}
-              <div className={`md:hidden flex items-center gap-3 transition-all duration-500 ${
+              <div className={`md:hidden flex items-center gap-3 overflow-hidden transition-all duration-500 ${
                 isScrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100 w-auto'
               }`}>
                 <ThemeToggle />

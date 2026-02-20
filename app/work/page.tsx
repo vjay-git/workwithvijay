@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { RAGSystemDiagram, AgentWorkflowDiagram, ScalableArchitectureDiagram } from '@/components/SystemDiagrams'
+import { RAGSystemDiagram, AgentWorkflowDiagram, ScalableArchitectureDiagram, ATSOrchestratorDiagram } from '@/components/SystemDiagrams'
 
 interface System {
   name: string
@@ -28,6 +28,12 @@ const systems: System[] = [
     problem: 'Application needed to handle high traffic and complex business logic while maintaining performance.',
     outcome: 'Handled 10x traffic growth, reduced page load times by 40%, maintained 99.9% uptime.',
     diagram: ScalableArchitectureDiagram,
+  },
+  {
+    name: 'Agentic Orchestration Platform — ATS Optimizer',
+    problem: 'Job seekers struggled to get resumes past ATS filters — manual keyword matching was slow, inconsistent, and left candidates guessing.',
+    outcome: 'Multi-agent system parses, scores, and rewrites resumes automatically. Candidates receive ATS-ready output with explainable scoring in seconds.',
+    diagram: ATSOrchestratorDiagram,
   },
 ]
 

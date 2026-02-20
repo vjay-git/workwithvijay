@@ -28,10 +28,27 @@ export default function Hero() {
             Product & <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_8px_rgba(92,225,230,0.3)]">AI Engineering Studio</span>
           </h1>
 
-          {/* Secondary - Capabilities */}
-          <p className="hero-capability text-lg sm:text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 mb-8 sm:mb-10 leading-relaxed">
-            Modern tech stack · <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_4px_rgba(92,225,230,0.2)]">RAG systems</span> · AI agents · LLM integrations · Vector databases · Production-ready architecture
-          </p>
+          {/* Secondary - Capabilities as pill tags */}
+          <div className="hero-capability flex flex-wrap gap-2 mb-8 sm:mb-10">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neon-cyan/10 text-neutral-700 dark:text-neon-cyan border border-neutral-200 dark:border-neon-cyan/25">
+              RAG Systems
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/50">
+              AI Agents
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/50">
+              LLM Integrations
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/50">
+              Vector Databases
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/50">
+              Full Stack
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium bg-neutral-100 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/50">
+              Production-Ready
+            </span>
+          </div>
 
           {/* Value - What we do */}
           <p className="hero-value text-xl sm:text-2xl text-neutral-700 dark:text-neutral-300 mb-12 sm:mb-16 leading-relaxed max-w-2xl">

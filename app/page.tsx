@@ -37,6 +37,7 @@ export default function Home() {
             </p>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">01</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">RAG Systems</span> & Knowledge Bases
                 </h3>
@@ -45,6 +46,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">02</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">AI Agents</span> & Workflows
                 </h3>
@@ -53,6 +55,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">03</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">Enterprise Integrations</span>
                 </h3>
@@ -61,6 +64,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">04</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   <span className="dark:text-neon-cyan dark:drop-shadow-[0_0_6px_rgba(92,225,230,0.25)]">Modern Tech Stack</span>
                 </h3>
@@ -94,37 +98,42 @@ export default function Home() {
                 <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Frontend
                 </h3>
-                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
-                  <li>Next.js 14+ (App Router)</li>
-                  <li>React 18+ with TypeScript</li>
-                  <li>Tailwind CSS</li>
-                  <li>Server Components</li>
-                  <li>Modern UI patterns</li>
-                </ul>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Next.js 14+</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">React 18+</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">TypeScript</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Tailwind CSS</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Server Components</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">App Router</span>
+                </div>
               </div>
               <div className="space-y-4">
                 <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Backend & AI
                 </h3>
-                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
-                  <li>Python & FastAPI</li>
-                  <li>LLM APIs (OpenAI, Anthropic)</li>
-                  <li>Vector databases (Pinecone, Weaviate)</li>
-                  <li>LangChain & LlamaIndex</li>
-                  <li>REST & GraphQL APIs</li>
-                </ul>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Python</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">FastAPI</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">OpenAI</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Anthropic</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">LangChain</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">LlamaIndex</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">GraphQL</span>
+                </div>
               </div>
               <div className="space-y-4">
                 <h3 className="text-xl sm:text-2xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Infrastructure
                 </h3>
-                <ul className="space-y-2 text-base sm:text-lg text-neutral-600 dark:text-neutral-400">
-                  <li>PostgreSQL & Redis</li>
-                  <li>Cloud deployment (AWS, Vercel)</li>
-                  <li>Docker & containerization</li>
-                  <li>CI/CD pipelines</li>
-                  <li>Monitoring & observability</li>
-                </ul>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">PostgreSQL</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Redis</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Pinecone</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">AWS</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Vercel</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">Docker</span>
+                  <span className="px-2.5 py-1 rounded-md text-xs sm:text-sm bg-neutral-100 dark:bg-neutral-800/70 text-neutral-600 dark:text-neutral-400 border border-neutral-200 dark:border-neutral-700/60">CI/CD</span>
+                </div>
               </div>
             </div>
           </div>
@@ -142,6 +151,7 @@ export default function Home() {
             </h2>
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16">
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">01</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Production-first mindset
                 </h3>
@@ -150,6 +160,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">02</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   System design over demos
                 </h3>
@@ -158,6 +169,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">03</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Security & guardrails
                 </h3>
@@ -166,6 +178,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="space-y-3">
+                <span className="block text-xs font-mono tracking-[0.15em] text-neutral-400 dark:text-neon-cyan/50 mb-1">04</span>
                 <h3 className="text-2xl sm:text-3xl font-medium text-charcoal dark:text-neutral-100 leading-tight">
                   Ownership & reliability
                 </h3>
@@ -196,33 +209,49 @@ export default function Home() {
             </p>
             <div className="grid sm:grid-cols-2 gap-8 lg:gap-12">
               <div className="text-center space-y-2">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
-                  Enterprise Data
-                </p>
+                <div className="flex items-center justify-center gap-2.5 mb-1">
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                  <p className="text-xs font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
+                    Enterprise Data
+                  </p>
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                </div>
                 <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xs mx-auto">
                   Secure handling of sensitive business data with proper access controls and audit trails.
                 </p>
               </div>
               <div className="text-center space-y-2">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
-                  SAP Systems
-                </p>
+                <div className="flex items-center justify-center gap-2.5 mb-1">
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                  <p className="text-xs font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
+                    SAP Systems
+                  </p>
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                </div>
                 <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xs mx-auto">
                   Direct integration with SAP ERP systems, understanding complex data models and business logic.
                 </p>
               </div>
               <div className="text-center space-y-2">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
-                  AI Guardrails
-                </p>
+                <div className="flex items-center justify-center gap-2.5 mb-1">
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                  <p className="text-xs font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
+                    AI Guardrails
+                  </p>
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                </div>
                 <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xs mx-auto">
                   Query validation, result filtering, and safety mechanisms to prevent errors and unauthorized access.
                 </p>
               </div>
               <div className="text-center space-y-2">
-                <p className="text-sm font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
-                  Production Ready
-                </p>
+                <div className="flex items-center justify-center gap-2.5 mb-1">
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                  <p className="text-xs font-medium text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">
+                    Production Ready
+                  </p>
+                  <span className="w-5 h-px bg-neutral-300 dark:bg-neon-cyan/35"></span>
+                </div>
                 <p className="text-base sm:text-lg text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-xs mx-auto">
                   Systems designed for 24/7 operation with monitoring, error handling, and scalability built in.
                 </p>

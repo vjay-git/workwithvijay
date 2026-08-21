@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center gap-3">
             {/* Logo - smaller, quieter, signature-like */}
-            <Logo size="sm" variant="footer" className="opacity-70 dark:opacity-90" />
+            <Logo size="sm" className="opacity-70 dark:opacity-90" />
             <div className="text-sm text-neutral-600 dark:text-neutral-400">
               <p>© {currentYear} workwithvijay.com</p>
               <p className="mt-1">Product & AI Engineering Studio</p>

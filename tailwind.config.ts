@@ -38,6 +38,10 @@ const config: Config = {
         },
       },
       fontFamily: {
+        // Display grotesk - hero architectural typography
+        display: ['var(--font-display)', 'Archivo', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        // Real mono - system metadata / telemetry voice
+        mono: ['var(--font-mono)', '"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
         // System fonts stack - modern grotesk fallback
         sans: [
           '-apple-system',

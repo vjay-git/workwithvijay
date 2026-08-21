@@ -738,3 +738,93 @@ export function ScalableArchitectureDiagram({ className = '' }: DiagramProps) {
     </svg>
   )
 }
+
+// Hero Architecture Diagram - AI application pipeline
+// Restrained by design: it sits beside the headline and must never out-weigh it.
+export function HeroArchitectureDiagram({ className = '' }: DiagramProps) {
+  const nodes = [
+    { x: 60, y: 44, label: 'USER', accent: false },
+    { x: 60, y: 148, label: 'RETRIEVAL', accent: true },
+    { x: 60, y: 252, label: 'VECTOR DB', accent: false },
+    { x: 244, y: 96, label: 'LLM', accent: true },
+    { x: 244, y: 200, label: 'AGENT', accent: false },
+    { x: 244, y: 304, label: 'OUTPUT', accent: true },
+  ]
+
+  return (
+    <svg
+      viewBox="0 0 340 360"
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {/* Connectors - drawn first so nodes sit above them */}
+      <g className="stroke-neutral-300 dark:stroke-neutral-700" strokeWidth="1">
+        <path d="M60 68 L60 124" />
+        <path d="M60 172 L60 228" />
+        <path d="M244 120 L244 176" />
+        <path d="M244 224 L244 280" />
+        {/* Cross-links: retrieval -> LLM, vector db -> agent, LLM -> retrieval feedback */}
+        <path d="M84 148 L220 104" />
+        <path d="M84 252 L220 208" />
+        <path d="M84 60 L220 92" />
+      </g>
+
+      {/* Active path highlight - traces the primary request path only:
+          user -> retrieval -> LLM -> agent -> output */}
+      <g
+        className="stroke-neutral-400/70 dark:stroke-neon-cyan/35 hero-diagram-flow"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        fill="none"
+      >
+        <path
+          d="M60 68 L60 124 M84 148 L220 104 M244 120 L244 176 M244 224 L244 280"
+          pathLength={1}
+        />
+      </g>
+
+      {/* Nodes */}
+      {nodes.map((n) => (
+        <g key={n.label}>
+          <rect
+            x={n.x - 24}
+            y={n.y - 24}
+            width="48"
+            height="48"
+            rx="6"
+            className={
+              n.accent
+                ? 'stroke-neutral-400 dark:stroke-neon-cyan/45'
+                : 'stroke-neutral-300 dark:stroke-neutral-700'
+            }
+            strokeWidth="1.5"
+            fill="none"
+          />
+          <circle
+            cx={n.x}
+            cy={n.y}
+            r="3"
+            className={
+              n.accent
+                ? 'fill-neutral-400 dark:fill-neon-cyan/60'
+                : 'fill-neutral-300 dark:fill-neutral-600'
+            }
+          />
+          <text
+            x={n.x}
+            y={n.y + 40}
+            textAnchor="middle"
+            className="fill-neutral-400 dark:fill-neutral-500"
+            style={{ fontSize: '8px', letterSpacing: '0.12em' }}
+            fontFamily="ui-monospace, SFMono-Regular, Menlo, monospace"
+          >
+            {n.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  )
+}

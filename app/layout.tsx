@@ -1,8 +1,26 @@
 import type { Metadata } from 'next'
+import { Archivo, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+
+// Display grotesk for the hero's architectural typography. Tight apertures and
+// low stroke contrast hold up at 200px+ where a UI font falls apart.
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800'],
+  variable: '--font-display',
+  display: 'swap',
+})
+
+// Real mono for system metadata / telemetry - the interface voice.
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -57,9 +75,9 @@ export const metadata: Metadata = {
     // google: 'your-verification-code',
   },
   icons: {
-    icon: '/wwv.png',
-    shortcut: '/wwv.png',
-    apple: '/wwv.png',
+    icon: '/mark.png',
+    shortcut: '/mark.png',
+    apple: '/mark.png',
   },
 }
 
@@ -100,7 +118,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-neutral-50 text-charcoal dark:bg-charcoal-dark dark:text-neutral-100 transition-colors duration-300">
+      <body className={`${archivo.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-neutral-50 text-charcoal dark:bg-charcoal-dark dark:text-neutral-100 transition-colors duration-300`}>
         <ThemeProvider>
           <Header />
           <main className="flex-1">{children}</main>

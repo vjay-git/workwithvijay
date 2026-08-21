@@ -33,3 +33,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local design working files - unreferenced exports, originals and screenshots
+/workwithvijay.png
+/public/_logo_originals/
+/public/1.svg
+/public/2.svg
+/public/Dark.png
+/public/Light.png

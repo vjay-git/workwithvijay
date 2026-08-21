@@ -169,6 +169,25 @@ export default function Hero() {
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
+
+          {/* The route back to the person. The hero presents a system; this
+              traces it to whoever built it, so the identity is reachable from
+              the first screen without competing with the two actions above. */}
+          <Link
+            href="/about"
+            prefetch={true}
+            className="hero-trace hero-fade"
+            style={{ animationDelay: '1020ms' }}
+          >
+            <span className="hero-trace-node" aria-hidden="true" />
+            <span className="hero-trace-track" aria-hidden="true">
+              <span className="hero-trace-pulse" />
+            </span>
+            <span className="hero-trace-label">THE ENGINEER</span>
+            <span className="hero-trace-arrow" aria-hidden="true">
+              →
+            </span>
+          </Link>
         </div>
 
         <div className="hero-rail hero-rail-bottom">

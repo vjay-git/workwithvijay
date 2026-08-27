@@ -81,7 +81,12 @@ export interface IntroOptions {
 export function buildIntroTimeline(s: IntroState, opts: IntroOptions) {
   const { compact, brief } = opts
   // One scalar scales the whole film, so the beats keep their proportions.
-  const k = brief ? 0.26 : compact ? 0.66 : 1
+  //
+  // 0.87, not 1: measured cold on the real host, the 3D chunk and the geometry
+  // take ~1.2s before the timeline can start, which put time-to-usable-hero at
+  // 4.96-5.15s - at and just over the 5s ceiling the brief sets. Trimming the
+  // film to ~3.6s lands it near 4.5s with the staging untouched.
+  const k = brief ? 0.26 : compact ? 0.62 : 0.87
 
   const tl = gsap.timeline({
     paused: true,

@@ -95,7 +95,7 @@ const PATH: {
   {
     n: '05',
     label: 'Independent work',
-    focus: 'Work With Vijay',
+    focus: 'COLLAB WITH VIJAY',
     text: 'A product and AI engineering studio. I lead the engineering, and a small senior team builds alongside me — no layers between the person who designs a system and the people who build it.',
     tech: ['Architecture', 'Product engineering', 'Production systems'],
   },

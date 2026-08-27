@@ -712,11 +712,20 @@ textarea {
 
 
 /* ============================================================================
-   HERO - an interactive computational object, not a page with a background.
+   HERO - one statement, one graphic device.
+
+   Restraint is the design. There is a single signature device on this screen -
+   a signal travelling a path - and it is the brand mark drawn large. Everything
+   else is type, space, and one accent used sparingly enough that it still
+   registers as a signal when it appears.
+
+   Two typographic voices only:
+     DISPLAY    Archivo, the subject of the page
+     TECHNICAL  mono, restrained, for labels and controls
 
    Depth factors are declared here rather than in JS, so the spatial ratios
    live with the design:
-     grid 0.2x | far 0.15x | environment 0.4x | ENGINEERING 0.05x | motes 0.75x
+     grid 0.2x | axis 0.4x | ENGINEERING 0.05x
    The base offset (--px/--py, +/-60px) is written once by the pointer layer.
    ========================================================================== */
 
@@ -728,7 +737,6 @@ textarea {
   --hero-accent: #5ce1e6;
   --hero-accent-dim: rgba(92, 225, 230, 0.5);
   --hero-hair: rgba(238, 242, 244, 0.055);
-  --hero-glow: rgba(92, 225, 230, 0.2);
   --hero-header: 80px;
   --hero-pad: clamp(1.25rem, 3vw, 2.75rem);
 
@@ -754,7 +762,6 @@ html:not(.dark) .hero-stage {
   --hero-accent: #0097b2;
   --hero-accent-dim: rgba(0, 151, 178, 0.55);
   --hero-hair: rgba(20, 24, 26, 0.075);
-  --hero-glow: transparent;
 }
 
 /* --- ground --------------------------------------------------------------- */
@@ -770,27 +777,19 @@ html:not(.dark) .hero-stage {
   background: var(--hero-bg);
 }
 
+/* Ground, not decoration: it gives the type something to sit on and is not
+   meant to be noticed. Masked hard so it never reads as a "tech grid". */
 .hero-grid {
   /* Oversized so the parallax offset never exposes an edge. */
   inset: -80px;
   background-image: linear-gradient(to right, var(--hero-hair) 1px, transparent 1px),
     linear-gradient(to bottom, var(--hero-hair) 1px, transparent 1px);
   background-size: 108px 108px;
-  -webkit-mask-image: radial-gradient(ellipse 78% 66% at 62% 44%, #000 12%, transparent 74%);
-  mask-image: radial-gradient(ellipse 78% 66% at 62% 44%, #000 12%, transparent 74%);
+  opacity: 0.7;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 58% 46%, #000 8%, transparent 70%);
+  mask-image: radial-gradient(ellipse 70% 60% at 58% 46%, #000 8%, transparent 70%);
   transform: translate3d(calc(var(--px, 0px) * 0.2), calc(var(--py, 0px) * 0.2), 0);
   transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-  /* Barely perceptible ambient creep - the system is never quite still. */
-  animation: hero-grid-creep 160s linear infinite;
-}
-
-@keyframes hero-grid-creep {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 108px 108px;
-  }
 }
 
 .hero-vignette {
@@ -798,28 +797,14 @@ html:not(.dark) .hero-stage {
   opacity: 0.8;
 }
 
-/* --- depth planes --------------------------------------------------------- */
+/* --- the one device ------------------------------------------------------- */
+/* A single canvas plane, behind the type: the axis and the signal on it. */
 .hero-plane {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-}
-
-.hero-plane-far {
-  z-index: 0;
-  filter: blur(1.6px);
-  opacity: 0.9;
-}
-
-.hero-plane-mid {
   z-index: 1;
+  pointer-events: none;
   transform: translate3d(0, calc(var(--sy, 0px) * 1.5), 0);
-}
-
-/* Nearest plane - passes IN FRONT of the typography. */
-.hero-plane-front {
-  z-index: 4;
-  transform: translate3d(0, calc(var(--sy, 0px) * 2.3), 0);
 }
 
 /* --- frame ---------------------------------------------------------------- */
@@ -838,7 +823,8 @@ html:not(.dark) .hero-stage {
   pointer-events: auto;
 }
 
-/* --- interface marks (four, total) ---------------------------------------- */
+/* --- technical voice ------------------------------------------------------ */
+/* Two marks at the top, one at the bottom. That is the whole interface layer. */
 .hero-rail {
   display: flex;
   align-items: flex-start;
@@ -850,12 +836,12 @@ html:not(.dark) .hero-stage {
 .hero-rail-bottom {
   margin-top: auto;
   align-items: flex-end;
+  justify-content: flex-end;
 }
 
 .hero-meta,
 .hero-cta,
-.hero-ghost,
-.hero-scan-token {
+.hero-ghost {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   text-transform: uppercase;
 }
@@ -870,6 +856,7 @@ html:not(.dark) .hero-stage {
   white-space: nowrap;
 }
 
+/* The index is the only accent in the eyebrow, and it is four pixels wide. */
 .hero-meta-index {
   color: var(--hero-accent);
 }
@@ -884,25 +871,6 @@ html:not(.dark) .hero-stage {
 .hero-meta-dim {
   color: var(--hero-ink-faint);
   letter-spacing: 0.18em;
-}
-
-.hero-pulse-dot {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--hero-accent);
-  box-shadow: 0 0 8px var(--hero-glow);
-  animation: hero-breathe 3.2s ease-in-out infinite;
-}
-
-@keyframes hero-breathe {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.35;
-  }
 }
 
 .hero-scroll-arrow {
@@ -922,7 +890,7 @@ html:not(.dark) .hero-stage {
   }
 }
 
-/* --- typography ----------------------------------------------------------- */
+/* --- display voice -------------------------------------------------------- */
 .hero-typeblock {
   position: relative;
   margin-top: auto;
@@ -939,9 +907,22 @@ html:not(.dark) .hero-stage {
   }
 }
 
+/* ONE lockup: three lines, flush left, one size, one weight. Sized against the
+   widest line (PRODUCTION.) so the mass reaches the measure without overflowing
+   - the divisor is the line's own advance width in em, verified in-browser
+   rather than guessed. The vh clamp is what keeps three lines inside the fold;
+   it is deliberately lower than the two-line version this replaced. */
 .hero-type {
   margin: 0;
   font-family: var(--font-display), Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-size: 9vw; /* fallback where container queries are unsupported */
+  /* 7.0 is PRODUCTION.'s measured advance in em at this weight and tracking
+     (801px at 114.84px = 6.975em), plus a hair of margin. Guessing it low is
+     what clipped the line at tablet widths. */
+  font-size: max(2rem, min(calc((100cqw + var(--hero-pad) - 10px) / 7), 18vh));
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
   color: var(--hero-ink);
   display: flex;
   flex-direction: column;
@@ -960,111 +941,20 @@ html:not(.dark) .hero-stage {
   margin-top: -5px;
 }
 
-/* AI steps right, opening the void the composition is built around, and
-   drifts on its own slow cycle - a system designation, not a heading. */
-.hero-line-2 {
-  position: relative;
-  margin-left: 7%;
-  padding: 16px 20px;
-  margin-top: -16px;
-  margin-bottom: -16px;
-  animation: hero-ai-drift 13s ease-in-out infinite;
-}
-
-@media (min-width: 900px) {
-  .hero-line-2 {
-    margin-left: 24%;
-  }
-}
-
-@keyframes hero-ai-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -7px, 0);
-  }
-}
-
-.hero-ai-mark {
-  position: absolute;
-  inset: 4px 6px;
-  pointer-events: none;
-}
-
-.hero-ai-tick {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--hero-accent);
-  opacity: 0.45;
-}
-
-.hero-ai-tick-tl {
-  top: 0;
-  left: 0;
-  border-right: 0;
-  border-bottom: 0;
-}
-
-.hero-ai-tick-br {
-  bottom: 0;
-  right: 0;
-  border-left: 0;
-  border-top: 0;
-}
-
 .hero-word {
   display: inline-block;
 }
 
-.hero-type {
-  --fs-product: min(4.4vw, 3rem, 5.2vh);
-}
 
-.hero-word-product {
-  font-size: max(1.25rem, var(--fs-product));
-  font-weight: 500;
-  letter-spacing: 0.34em;
-  line-height: 1;
-  color: var(--hero-ink-dim);
-}
-
-.hero-slash {
-  display: inline-block;
-  margin-left: 0.35em;
-  font-size: max(1.25rem, var(--fs-product));
-  font-weight: 500;
-  color: var(--hero-accent);
-  line-height: 1;
-}
-
-.hero-word-ai {
-  font-size: max(2.5rem, min(12vw, 9rem, 13vh));
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 0.92;
-}
-
-/* ENGINEERING is sized by arithmetic, not a guessed vw step. Archivo at
-   wght 800 advances 7.496em for this string; CSS letter-spacing of -0.045em
-   applies after all 11 glyphs, so the element is 7.001em wide. Splitting into
-   per-letter spans matches that sum exactly (it suppresses kerning, which the
-   advance sum also excludes). */
 .hero-word-eng {
   position: relative; /* letter offsetLeft resolves against this */
   display: inline-block;
-  font-size: 13vw; /* fallback where container queries are unsupported */
-  font-size: max(2.5rem, min(calc((100cqw + var(--hero-pad) - 10px) / 7.05), 24vh));
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 0.86;
   white-space: nowrap;
 }
 
 /* Every letter is individually addressable, so the word answers to proximity
-   rather than to :hover - it behaves like an object, not a link. */
+   rather than to :hover - it behaves like an object, not a link. This is the
+   one place the accent touches the display type, and only under the cursor. */
 .hero-eng-letter {
   display: inline-block;
   color: var(--hero-ink);
@@ -1073,67 +963,8 @@ html:not(.dark) .hero-stage {
 
 @supports (color: color-mix(in oklab, white, black)) {
   .hero-eng-letter {
-    color: color-mix(in oklab, var(--hero-ink), var(--hero-accent) calc(var(--p, 0) * 80%));
+    color: color-mix(in oklab, var(--hero-ink), var(--hero-accent) calc(var(--p, 0) * 55%));
   }
-}
-
-/* --- the scan field ------------------------------------------------------- */
-/* A hairline and a few readouts, masked to a disc at the cursor. As the
-   pointer travels the word, the visible segment travels with it - reading as
-   a signal passing through the letters. Nothing is ever permanently shown. */
-.hero-scan {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  opacity: var(--lens, 0);
-  -webkit-mask-image: radial-gradient(
-    circle 165px at var(--lx, -999px) var(--ly, -999px),
-    #000 0%,
-    #000 20%,
-    transparent 64%
-  );
-  mask-image: radial-gradient(
-    circle 165px at var(--lx, -999px) var(--ly, -999px),
-    #000 0%,
-    #000 20%,
-    transparent 64%
-  );
-}
-
-.hero-scan-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: var(--scan-y, 62%);
-  height: 1px;
-  background: var(--hero-accent);
-  opacity: 0.6;
-}
-
-.hero-scan-tokens {
-  position: absolute;
-  left: 2%;
-  right: 2%;
-  top: calc(var(--scan-y, 62%) - 26px);
-  display: flex;
-  justify-content: space-between;
-}
-
-.hero-scan-token {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.5rem;
-  letter-spacing: 0.2em;
-  color: var(--hero-accent);
-}
-
-.hero-scan-token i {
-  width: 1px;
-  height: 12px;
-  background: var(--hero-accent);
 }
 
 /* --- value + actions ------------------------------------------------------ */
@@ -1141,7 +972,7 @@ html:not(.dark) .hero-stage {
   margin-top: clamp(1.25rem, 3.5vh, 2.5rem);
   display: flex;
   flex-direction: column;
-  gap: clamp(1.75rem, 3vh, 2.25rem);
+  gap: clamp(1.5rem, 3vh, 2rem);
   transform: translate3d(0, calc(var(--sy, 0px) * 0.6), 0);
 }
 
@@ -1158,104 +989,96 @@ html:not(.dark) .hero-stage {
     font-size: 1rem;
     max-width: 38rem;
   }
+
+  /* Break at the em-dash rather than wherever the measure happens to run out:
+     the claim on one line, the qualification on the next. Deterministic, so it
+     does not drift when the copy or the font metrics change. */
+  .hero-value-em {
+    display: block;
+  }
 }
 
 .hero-value-em {
   color: var(--hero-ink);
 }
 
+/* One row, one hierarchy: the action, then two ways out at equal weight. */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: clamp(3.75rem, 6vw, 5rem);
+  gap: clamp(2rem, 5vw, 4rem);
 }
 
-/* A control embedded in the environment - no button chrome. */
+.hero-actions-quiet {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 2.75rem);
+}
+
+/* No enclosing shape. The CTA is a word and a rule; the rule is the path, and
+   the signal that runs it on approach is the same device as the hero axis and
+   the brand mark. That repetition is the identity. */
 .hero-cta {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   min-height: 48px;
-  padding: 0 0.25rem;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.24em;
   color: var(--hero-ink);
-  transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
-  transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1), color 300ms ease;
+  transition: color 300ms ease;
   touch-action: manipulation;
 }
 
-.hero-cta-field,
+.hero-cta-rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11px;
+  height: 1px;
+  overflow: hidden;
+  background: var(--hero-ink-faint);
+  transition: background-color 320ms ease;
+}
+
+/* A short segment travelling the rule, not a fill. Parked off the path until
+   the control is engaged. */
 .hero-cta-signal {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(100% + 5.5rem);
-  height: calc(100% + 2.5rem);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.hero-cta-field {
-  border: 1px solid var(--hero-accent-dim);
-  opacity: calc(0.4 + var(--mag, 0) * 0.6);
-  transform: translate(-50%, -50%) scale(calc(1 + var(--mag, 0) * 0.08));
-  transition: opacity 340ms ease, transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 340ms ease;
-}
-
-/* A signal running the perimeter: a conic sweep masked to a 1.5px ring. */
-.hero-cta-signal {
-  background: conic-gradient(
-    from 0deg,
-    transparent 0 66%,
-    var(--hero-accent) 79%,
-    transparent 88%
-  );
-  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.5px));
-  mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.5px));
-  opacity: calc(var(--mag, 0) * 0.95);
-  transform: translate(-50%, -50%);
-  animation: hero-orbit 3.6s linear infinite;
-  transition: opacity 320ms ease;
-}
-
-@keyframes hero-orbit {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* The boundary deforms very slightly while engaged. */
-.hero-cta:hover .hero-cta-field,
-.hero-cta:focus-visible .hero-cta-field {
-  border-color: var(--hero-accent);
-  opacity: 1;
-  animation: hero-deform 7s ease-in-out infinite;
-}
-
-@keyframes hero-deform {
-  0%,
-  100% {
-    border-radius: 50%;
-  }
-  33% {
-    border-radius: 47% 53% 52% 48% / 51% 47% 53% 49%;
-  }
-  66% {
-    border-radius: 53% 47% 48% 52% / 49% 53% 47% 51%;
-  }
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(to right, transparent, var(--hero-accent), transparent);
+  transform: translateX(-120%);
+  opacity: 0;
 }
 
 .hero-cta:hover,
 .hero-cta:focus-visible {
   color: var(--hero-accent);
+}
+
+.hero-cta:hover .hero-cta-rule,
+.hero-cta:focus-visible .hero-cta-rule {
+  background: var(--hero-accent-dim);
+}
+
+.hero-cta:hover .hero-cta-signal,
+.hero-cta:focus-visible .hero-cta-signal {
+  opacity: 1;
+  animation: hero-signal-run 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes hero-signal-run {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
 }
 
 .hero-cta-label,
@@ -1264,30 +1087,26 @@ html:not(.dark) .hero-stage {
   transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-cta:hover .hero-cta-label,
-.hero-cta:focus-visible .hero-cta-label {
-  transform: translateX(3px);
-}
-
 .hero-cta:hover .hero-cta-arrow,
 .hero-cta:focus-visible .hero-cta-arrow {
-  transform: translateX(9px);
+  transform: translateX(7px);
 }
 
+/* The two quiet routes. Same treatment, so neither claims to be a second CTA. */
 .hero-ghost {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   min-height: 44px;
-  font-size: 0.625rem;
-  letter-spacing: 0.24em;
-  color: var(--hero-ink-dim);
+  font-size: 0.5625rem;
+  letter-spacing: 0.22em;
+  color: var(--hero-ink-faint);
   transition: color 260ms ease;
 }
 
 .hero-ghost:hover,
 .hero-ghost:focus-visible {
-  color: var(--hero-accent);
+  color: var(--hero-ink);
 }
 
 .hero-ghost-text {
@@ -1312,118 +1131,8 @@ html:not(.dark) .hero-stage {
   transform: scaleX(1);
 }
 
-/* --- the route to the engineer -------------------------------------------
-   Not a third button. The hero presents a system; this traces that system back
-   to the person who built it - a node, a track, and a pulse that runs the track
-   toward the label. Ambient and almost silent at rest; on approach the pulse
-   quickens and the path lights.
-   ------------------------------------------------------------------------- */
-.hero-trace {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-height: 44px;
-  font-family: var(--font-mono), ui-monospace, monospace;
-  text-transform: uppercase;
-  font-size: 0.5625rem;
-  letter-spacing: 0.22em;
-  color: var(--hero-ink-faint);
-  text-decoration: none;
-  transition: color 320ms ease;
-}
-
-.hero-trace-node {
-  flex: none;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--hero-accent);
-  box-shadow: 0 0 8px var(--hero-glow);
-  opacity: 0.55;
-  transition: opacity 320ms ease, box-shadow 320ms ease;
-}
-
-.hero-trace-track {
-  position: relative;
-  flex: none;
-  width: clamp(1.75rem, 5vw, 3.25rem);
-  height: 1px;
-  background: var(--hero-hair);
-  overflow: hidden;
-}
-
-/* the pulse is a short segment travelling the track, not a fill */
-.hero-trace-pulse {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 40%;
-  background: linear-gradient(to right, transparent, var(--hero-accent), transparent);
-  transform: translateX(-100%);
-  animation: hero-trace-run 4.6s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  opacity: 0.5;
-}
-
-@keyframes hero-trace-run {
-  0% {
-    transform: translateX(-100%);
-  }
-  55%,
-  100% {
-    transform: translateX(250%);
-  }
-}
-
-.hero-trace-label {
-  position: relative;
-  white-space: nowrap;
-}
-
-.hero-trace-label::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 1px;
-  background: var(--hero-accent-dim);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-trace-arrow {
-  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-trace:hover,
-.hero-trace:focus-visible {
-  color: var(--hero-ink);
-}
-
-.hero-trace:hover .hero-trace-node,
-.hero-trace:focus-visible .hero-trace-node {
-  opacity: 1;
-  box-shadow: 0 0 12px var(--hero-glow);
-}
-
-.hero-trace:hover .hero-trace-pulse,
-.hero-trace:focus-visible .hero-trace-pulse {
-  opacity: 1;
-  animation-duration: 1.5s;
-}
-
-.hero-trace:hover .hero-trace-label::after,
-.hero-trace:focus-visible .hero-trace-label::after {
-  transform: scaleX(1);
-}
-
-.hero-trace:hover .hero-trace-arrow,
-.hero-trace:focus-visible .hero-trace-arrow {
-  transform: translateX(5px);
-}
-
 /* --- cursor --------------------------------------------------------------- */
+/* Neutral ring, one accent pixel. It opens over ENGINEERING and nowhere else. */
 .hero-cursor-layer {
   position: absolute;
   inset: 0;
@@ -1451,7 +1160,7 @@ html:not(.dark) .hero-stage {
 .hero-cursor-ring {
   width: 28px;
   height: 28px;
-  border: 1px solid var(--hero-accent-dim);
+  border: 1px solid var(--hero-ink-faint);
 }
 
 /* --- boot ----------------------------------------------------------------- */
@@ -1481,9 +1190,12 @@ html:not(.dark) .hero-stage {
   }
 }
 
-.hero-word,
-.hero-slash {
+/* AI enters on the same beat as ENGINEERING's first letter. The lockup is one
+   object; two lines arriving separately would re-open the gap the indent and
+   the drift cycle used to create. */
+.hero-word {
   animation: hero-word-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 380ms;
 }
 
 /* The filled end state resolves to var(--ty), so the entrance and the live
@@ -1509,23 +1221,11 @@ html:not(.dark) .hero-stage {
   animation: none;
 }
 
-.hero-word-product {
-  animation-delay: 140ms;
-}
-.hero-slash {
-  animation-delay: 220ms;
-}
-.hero-word-ai {
-  animation-delay: 300ms;
-}
-
 /* --- reduced motion ------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .hero-fade,
   .hero-word,
-  .hero-slash,
-  .hero-eng-letter,
-  .hero-line-2 {
+  .hero-eng-letter {
     animation: none;
     opacity: 1;
     transform: none;
@@ -1535,26 +1235,12 @@ html:not(.dark) .hero-stage {
     clip-path: none;
   }
 
-  .hero-trace-pulse {
-    animation: none;
-    transform: none;
-    width: 100%;
-    opacity: 0.35;
-  }
-
-  .hero-trace-arrow,
-  .hero-trace-label::after {
-    transition: none;
-  }
-
   .hero-grid,
   .hero-type,
   .hero-typeblock,
   .hero-lower,
-  .hero-plane-mid,
-  .hero-plane-front,
+  .hero-plane,
   .hero-cta,
-  .hero-cta-field,
   .hero-cta-label,
   .hero-cta-arrow,
   .hero-ghost-text::after {
@@ -1562,20 +1248,221 @@ html:not(.dark) .hero-stage {
     transform: none;
   }
 
-  .hero-grid,
-  .hero-pulse-dot,
-  .hero-scroll-arrow,
-  .hero-cta-signal {
+  .hero-scroll-arrow {
     animation: none;
   }
 
-  .hero-cta-field {
-    transform: translate(-50%, -50%);
-  }
-
-  .hero-cta-signal,
-  .hero-scan {
+  .hero-cta-signal {
     display: none;
+  }
+}
+
+/* ============================================================================
+   THE INTRO - the logo is the doorway.
+
+   The DOM hero is always in the markup. This layer sits on top of it, plays,
+   and leaves. Nothing below depends on it having run, which is why every
+   fallback path in IntroGate is simply "do not mount".
+
+   --intro-reveal is written by the timeline (0 -> 1) during the last beat. The
+   hero reads it to rise INTO the frame the 3D just built, so for ~0.4s both are
+   on screen at once. That overlap is the whole illusion; a cut there and the
+   piece collapses into "a video, then a website".
+   ========================================================================== */
+
+.intro-root {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+  background: #050607;
+  will-change: opacity;
+}
+
+/* The instant state. Same artwork, same place on screen as the WebGL mark, so
+   the handoff is a cross-fade between two renderings of one object rather than
+   a loader giving way to content. */
+.intro-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  background: #050607;
+  opacity: 1;
+  /* Short and late-biased: a long cross-fade shows the flat mark and the lit
+     one at once, and they are never a pixel-perfect match. */
+  transition: opacity 260ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+.intro-poster.is-lit {
+  opacity: 0;
+}
+
+.intro-poster-mark {
+  position: relative;
+  /* Matched to the WebGL lockup's on-screen width at the opening camera
+     distance, so the handoff is a dissolve between two renderings of one
+     object rather than a swap between two different sizes. */
+  width: min(76vw, 70rem);
+  aspect-ratio: 4.1036;
+  background: #3d474d;
+  -webkit-mask: url(/collab-wordmark-mask.svg) center / contain no-repeat;
+  mask: url(/collab-wordmark-mask.svg) center / contain no-repeat;
+  animation: intro-poster-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.intro-poster-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(76vw, 70rem);
+  aspect-ratio: 4.1036;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: intro-poster-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Positioned from the artwork's own geometry - the same numbers the header
+   lockup uses, printed by scripts/make-wordmarks.js. */
+.intro-poster-dot::after {
+  content: '';
+  position: absolute;
+  left: 86.439%;
+  top: 89.293%;
+  width: 1.522%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #16D9E8;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes intro-poster-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.intro-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* While the film runs the page must not scroll under it. */
+html[data-intro='running'],
+html[data-intro='running'] body {
+  overflow: hidden;
+}
+
+/* The hero's own entrance is suppressed for the whole visit, not just while the
+   film runs - note [data-intro] with no value, which matches 'running' AND
+   'done'. Releasing the attribute entirely would un-suppress these keyframes at
+   the exact moment the intro handed over, restarting them from opacity 0 with
+   up to a second of delay: the hero blinked out right after arriving. */
+html[data-intro] .hero-fade,
+html[data-intro] .hero-word,
+html[data-intro] .hero-eng-letter {
+  animation: none !important;
+}
+
+html[data-intro='running'] .hero-frame {
+  opacity: var(--intro-reveal, 0);
+}
+
+/* Blocks arrive from slightly below and settle, staggered by the same reveal
+   scalar - one value, three responses, so they cannot drift apart. */
+html[data-intro='running'] .hero-typeblock {
+  transform: translate3d(0, calc((1 - var(--intro-reveal, 0)) * 26px), 0);
+}
+
+html[data-intro='running'] .hero-lower {
+  opacity: clamp(0, calc((var(--intro-reveal, 0) - 0.25) / 0.75), 1);
+  transform: translate3d(0, calc((1 - var(--intro-reveal, 0)) * 38px), 0);
+}
+
+html[data-intro='running'] .hero-rail {
+  opacity: clamp(0, calc((var(--intro-reveal, 0) - 0.45) / 0.55), 1);
+}
+
+/* The header is part of the arrival, not a fixture that was there all along. */
+html[data-intro='running'] .nav-root {
+  opacity: clamp(0, calc((var(--intro-reveal, 0) - 0.35) / 0.65), 1);
+}
+
+/* --- skip ----------------------------------------------------------------- */
+/* Offered quietly, in the technical voice the rest of the site uses. It is a
+   real button: focusable, keyboard-operable, and Escape does the same thing. */
+.intro-skip {
+  position: absolute;
+  right: clamp(1.25rem, 3vw, 2.75rem);
+  bottom: clamp(1.25rem, 3vw, 2.5rem);
+  z-index: 2;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.2rem;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.24em;
+  color: rgba(238, 242, 244, 0.42);
+  transition: color 260ms ease;
+  animation: intro-skip-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes intro-skip-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.intro-skip:hover,
+.intro-skip:focus-visible {
+  color: #eef2f4;
+}
+
+.intro-skip-rule {
+  position: absolute;
+  left: 0.2rem;
+  right: 0.2rem;
+  bottom: 0.35rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease;
+}
+
+.intro-skip:hover .intro-skip-rule,
+.intro-skip:focus-visible .intro-skip-rule {
+  transform: scaleX(1);
+  opacity: 0.6;
+}
+
+.intro-skip-arrow {
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intro-skip:hover .intro-skip-arrow,
+.intro-skip:focus-visible .intro-skip-arrow {
+  transform: translateX(5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-skip,
+  .intro-skip-rule,
+  .intro-skip-arrow {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -1674,133 +1561,66 @@ html:not(.dark) .nav-root.is-scrolled {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
   text-decoration: none;
   flex-shrink: 0;
-}
-
-.brand-mark {
-  display: block;
-  width: 1.5rem;
-  height: 1.5rem;
-  flex-shrink: 0;
-}
-
-.brand-sm .brand-mark {
-  width: 1.25rem;
-  height: 1.25rem;
-}
-
-.brand-mark svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.brand-mark-frame {
-  stroke: var(--nav-accent);
-  stroke-width: 1.4;
-  opacity: 0.55;
-  transition: opacity 320ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.brand-mark-path {
-  stroke: var(--nav-dim);
-  stroke-width: 1.2;
-}
-
-/* the signal: a short dash parked off-path, released on hover */
-.brand-mark-signal {
-  stroke: var(--nav-accent);
-  stroke-width: 1.6;
-  stroke-dasharray: 4 26;
-  stroke-dashoffset: 30;
-  opacity: 0;
-  transition: opacity 200ms ease;
-}
-
-.brand-mark-node {
-  fill: var(--nav-accent);
-  transition: r 320ms cubic-bezier(0.16, 1, 0.3, 1), filter 320ms ease;
-}
-
-.brand:hover .brand-mark-signal,
-.brand:focus-visible .brand-mark-signal {
-  opacity: 1;
-  animation: brand-signal 620ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes brand-signal {
-  from {
-    stroke-dashoffset: 30;
-  }
-  to {
-    stroke-dashoffset: -4;
-  }
-}
-
-.brand:hover .brand-mark-frame,
-.brand:focus-visible .brand-mark-frame {
-  opacity: 1;
-}
-
-.brand:hover .brand-mark-node,
-.brand:focus-visible .brand-mark-node {
-  r: 3;
-}
-
-/* wordmark - live type, so it stays crisp and follows the theme */
-.brand-word {
-  font-family: var(--font-display), Archivo, "Helvetica Neue", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 1.0625rem;
-  letter-spacing: -0.022em;
-  line-height: 1;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: baseline;
-  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.brand-sm .brand-word {
-  font-size: 0.9375rem;
-}
-
-.brand:hover .brand-word,
-.brand:focus-visible .brand-word {
-  transform: translateX(1.5px);
-}
-
-.brand-word-main {
   color: var(--nav-ink);
 }
 
-/* AI is annotated rather than merely coloured - the rule ties it in as part
-   of the mark instead of looking like a stray span. */
-.brand-word-ai {
+/* The lockup is one box with a known aspect, taken from the artwork's own
+   viewBox. Everything inside positions against it in percentages, so the mark
+   scales without any part drifting. */
+.brand-lockup {
   position: relative;
-  color: var(--nav-accent);
-  margin-left: 0.06em;
-  letter-spacing: 0.01em;
-  transition: filter 320ms ease;
+  display: block;
+  width: 9.5rem;
+  aspect-ratio: 4.1036;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.brand-word-rule {
+.brand-sm .brand-lockup {
+  width: 8rem;
+}
+
+@media (max-width: 400px) {
+  .brand-lockup {
+    width: 7.75rem;
+  }
+}
+
+/* Masked, not <img>: the ink is currentColor, so one cached file serves the
+   light and dark themes and the header needs no second variant. */
+.brand-wordmark {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.24em;
-  height: 1px;
-  background: var(--nav-accent);
-  opacity: 0.5;
-  transform-origin: left center;
-  transition: opacity 320ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  inset: 0;
+  background: currentColor;
+  -webkit-mask: url(/collab-wordmark-mask.svg) center / contain no-repeat;
+  mask: url(/collab-wordmark-mask.svg) center / contain no-repeat;
 }
 
-.brand:hover .brand-word-rule,
-.brand:focus-visible .brand-word-rule {
-  opacity: 1;
-  transform: scaleX(1.14);
+/* The accent is a circle in the artwork, so it is drawn as one here rather than
+   fetched. Coordinates are emitted by scripts/make-wordmarks.js. */
+.brand-dot {
+  position: absolute;
+  left: 86.439%;
+  top: 89.293%;
+  width: 1.522%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--nav-accent);
+  transform: translate(-50%, -50%);
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms ease;
+}
+
+/* The brand's own accent is the interaction - no chrome added around the mark. */
+.brand:hover .brand-lockup,
+.brand:focus-visible .brand-lockup {
+  transform: translateX(1.5px);
+}
+
+.brand:hover .brand-dot,
+.brand:focus-visible .brand-dot {
+  transform: translate(-50%, -50%) scale(1.45);
+  box-shadow: 0 0 10px var(--nav-accent);
 }
 
 /* --- cluster -------------------------------------------------------------- */
@@ -1991,25 +1811,44 @@ html:not(.dark) .nav-root.is-scrolled {
   color: var(--nav-accent);
 }
 
-/* a signal sweeping the border, matched to the hero's control */
+/* The same device as the hero control and the brand mark: a short signal
+   travelling a path, not a ring orbiting a shape. Parked off the path at rest. */
 .nav-cta-signal {
   position: absolute;
-  inset: -1px;
-  z-index: -2;
-  background: conic-gradient(from 0deg, transparent 0 70%, var(--nav-accent) 82%, transparent 90%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  overflow: hidden;
   opacity: 0;
   transition: opacity 320ms ease;
 }
 
-.nav-cta:hover .nav-cta-signal,
-.nav-cta:focus-visible .nav-cta-signal {
-  opacity: 0.75;
-  animation: nav-orbit 2.6s linear infinite;
+.nav-cta-signal::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(to right, transparent, var(--nav-accent), transparent);
+  transform: translateX(-120%);
 }
 
-@keyframes nav-orbit {
-  to {
-    transform: rotate(360deg);
+.nav-cta:hover .nav-cta-signal,
+.nav-cta:focus-visible .nav-cta-signal {
+  opacity: 1;
+}
+
+.nav-cta:hover .nav-cta-signal::after,
+.nav-cta:focus-visible .nav-cta-signal::after {
+  animation: nav-signal-run 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes nav-signal-run {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(260%);
   }
 }
 
@@ -2318,18 +2157,15 @@ html:not(.dark) .navover-ground {
   .nav-theme-disc,
   .nav-cta,
   .nav-cta-arrow,
-  .brand-word,
-  .brand-word-rule,
-  .brand-mark-frame,
-  .brand-mark-node,
+  .brand-lockup,
+  .brand-dot,
   .nav-menu-mark i {
     transition: none;
   }
 
   .nav-link.is-active .nav-link-dot,
   .navover-item.is-active .navover-dot,
-  .nav-cta:hover .nav-cta-signal,
-  .brand:hover .brand-mark-signal {
+  .nav-cta:hover .nav-cta-signal {
     animation: none;
   }
 
@@ -2694,6 +2530,8 @@ html:not(.dark) .sys {
   stroke: var(--sys-accent-dim);
 }
 
+/* Colour is CSS, geometry is anime.js. The two never write the same property,
+   so the arrival tint and the travelling flare cannot fight each other. */
 .sysd-node {
   fill: var(--sys-faint);
   transition: fill 480ms ease;
@@ -2701,55 +2539,39 @@ html:not(.dark) .sys {
 
 .sys-stage.is-active .sysd-node {
   fill: var(--sys-accent-dim);
-  animation: sysd-pulse 4.4s ease-in-out infinite;
 }
 
 .sys-stage.is-active .sysd-node-out {
   fill: var(--sys-accent);
 }
 
-@keyframes sysd-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  18% {
-    opacity: 1;
-  }
-}
-
-/* the travelling signal - a short dash running the diagram's own path */
-.sysd-flow {
+/* The route the signal travels. Authored fully drawn, so with no JS - or with
+   reduced motion - it still reads as the accent path through the diagram; the
+   dash state is owned entirely by anime.js when it takes over. */
+.sysd-signal {
   stroke: var(--sys-accent);
   stroke-width: 1.4;
   stroke-linecap: round;
-  opacity: 0.5; /* no JS: the signal still reads as a drawn path */
+  fill: none;
+  opacity: 0.55;
   transition: opacity 500ms ease;
 }
 
-.sys-armed .sysd-flow {
-  stroke-dasharray: 16 420;
-  stroke-dashoffset: 436;
+.sys-stage.is-active .sysd-signal {
+  opacity: 0.9;
+}
+
+/* The head of the signal. Hidden until anime.js rides it along the route. */
+.sysd-head {
+  fill: var(--sys-accent);
   opacity: 0;
 }
 
-.sys-armed .sys-stage.is-active .sysd-flow {
-  opacity: 0.9;
-  animation: sysd-travel 6.5s cubic-bezier(0.55, 0, 0.45, 1) infinite;
-}
-
-.sys-armed .sys-stage.is-active .sysd-flow-alt {
-  animation-delay: 2.4s;
-}
-
-@keyframes sysd-travel {
-  0% {
-    stroke-dashoffset: 436;
-  }
-  62%,
-  100% {
-    stroke-dashoffset: 0;
-  }
+/* Armed = anime.js has taken the diagram and is setting its off-state this
+   tick. Held hidden for that one frame only, then released. If the module
+   never loads the class is removed and the authored diagram stands. */
+.sysd.is-armed {
+  opacity: 0;
 }
 
 .sysd-label {
@@ -2775,10 +2597,6 @@ html:not(.dark) .sys {
 
   .sys-stage:hover .sysd {
     transform: scale(1.035);
-  }
-
-  .sys-stage:hover .sysd-flow {
-    animation-duration: 3.2s;
   }
 
   .sys-stage:hover .sysd-label {
@@ -2809,16 +2627,14 @@ html:not(.dark) .sys {
     opacity: 1;
   }
 
-  .sys-stage.is-active .sysd-node,
-  .sys-stage.is-active .sysd-flow {
-    animation: none;
+  /* The diagram is never armed under reduced motion, so it simply stands as
+     authored: fully drawn, the signal a static path, the head absent. */
+  .sysd.is-armed {
+    opacity: 1;
   }
 
-  /* the signal still reads as a path, it just no longer travels */
-  .sys-stage.is-active .sysd-flow {
-    opacity: 0.5;
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
+  .sys-stage.is-active .sysd-signal {
+    opacity: 0.55;
   }
 
   .sys-spine-fill {

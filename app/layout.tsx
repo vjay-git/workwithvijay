@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Work With Vijay | Product & AI Engineering Studio',
+    default: 'COLLAB WITH VIJAY | Product & AI Engineering Studio',
     template: '%s | workwithvijay.com',
   },
   description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents. A small, senior team that builds serious systems.',
@@ -44,19 +44,19 @@ export const metadata: Metadata = {
     'AI Systems',
     'Retrieval-Augmented Generation',
   ],
-  authors: [{ name: 'Work With Vijay' }],
-  creator: 'Work With Vijay',
+  authors: [{ name: 'COLLAB WITH VIJAY' }],
+  creator: 'COLLAB WITH VIJAY',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://workwithvijay.com',
     siteName: 'workwithvijay.com',
-    title: 'Work With Vijay | Product & AI Engineering Studio',
+    title: 'COLLAB WITH VIJAY | Product & AI Engineering Studio',
     description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Work With Vijay | Product & AI Engineering Studio',
+    title: 'COLLAB WITH VIJAY | Product & AI Engineering Studio',
     description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents.',
   },
   robots: {
@@ -96,7 +96,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'Work With Vijay',
+              name: 'COLLAB WITH VIJAY',
               url: 'https://workwithvijay.com',
               description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents.',
               foundingDate: '2024',

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 700" role="img" aria-labelledby="title desc">
+  <title id="title">COLLAB WITH VIJAY</title>
+  <desc id="desc">COLLAB WITH VIJAY — Product &amp; AI Engineering Studio</desc>
+  <rect width="2400" height="700" fill="#000"/>
+  <text x="1200" y="300" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="250" font-weight="700" letter-spacing="18" fill="#F5F7FA">COLLAB</text>
+  <text x="1200" y="445" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="78" font-weight="500" letter-spacing="42" fill="#F5F7FA">WITH VIJAY</text>
+  <circle cx="2030" cy="420" r="18" fill="#16D9E8"/>
+  <line x1="250" y1="560" x2="730" y2="560" stroke="#7E8790" stroke-width="2"/>
+  <line x1="1670" y1="560" x2="2150" y2="560" stroke="#7E8790" stroke-width="2"/>
+  <text x="1200" y="575" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="500" letter-spacing="14" fill="#E8EBEF">PRODUCT &amp; AI ENGINEERING STUDIO</text>
+</svg>

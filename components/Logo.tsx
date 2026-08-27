@@ -3,12 +3,16 @@
 import Link from 'next/link'
 
 /**
- * Brand lockup: a system mark plus a live-type wordmark.
+ * Brand lockup: COLLAB WITH VIJAY.
  *
- * Rendered as text rather than an image so it stays crisp at any size, follows
- * the theme tokens, and can carry interaction. The mark is the site's own
- * visual language reduced to 24px - a node with a signal passing through it,
- * inside an implied system frame.
+ * The approved wordmark, drawn from the traced master (see scripts/trace-logo.js).
+ * It is painted as a CSS mask rather than an <img> or inline SVG for three
+ * reasons: the ink follows `currentColor`, so one cached 32KB file serves both
+ * themes; nothing inlines 32KB of path data into every page; and the accent dot
+ * stays a real element that can respond to interaction.
+ *
+ * The dot is positioned from the artwork's own geometry - make-wordmarks.js
+ * prints those percentages, so the CSS and the SVG cannot drift apart.
  */
 
 interface LogoProps {
@@ -22,28 +26,11 @@ export default function Logo({ size = 'md', className = '' }: LogoProps) {
       href="/"
       prefetch={true}
       className={`brand brand-${size} ${className}`}
-      aria-label="workwithvijAI - Home"
+      aria-label="COLLAB WITH VIJAY - Home"
     >
-      <span className="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" strokeLinecap="square">
-          {/* implied system frame */}
-          <path className="brand-mark-frame" d="M3.5 8.5V3.5H8.5" />
-          <path className="brand-mark-frame" d="M20.5 15.5v5h-5" />
-          {/* signal path */}
-          <path className="brand-mark-path" d="M4.5 12h15" />
-          {/* the travelling signal, parked off-path until hover */}
-          <path className="brand-mark-signal" d="M4.5 12h15" />
-          {/* node */}
-          <circle className="brand-mark-node" cx="12" cy="12" r="2.4" />
-        </svg>
-      </span>
-
-      <span className="brand-word">
-        <span className="brand-word-main">workwithvij</span>
-        <span className="brand-word-ai">
-          AI
-          <span className="brand-word-rule" aria-hidden="true" />
-        </span>
+      <span className="brand-lockup" aria-hidden="true">
+        <span className="brand-wordmark" />
+        <span className="brand-dot" />
       </span>
     </Link>
   )

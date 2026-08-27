@@ -6,17 +6,14 @@ import { useTheme } from '@/contexts/ThemeContext'
 import HeroField from './HeroField'
 import HeroPointer from './HeroPointer'
 
-const ENG = 'ENGINEERING'.split('')
-
-/** Surfaced only inside the scan field that follows the cursor. */
-const SCAN = ['RAG', 'VECTOR', 'AGENT', 'LLM', 'SYSTEM']
+/** The payoff line is addressable per letter, so it answers to proximity. */
+const PAYOFF = 'PRODUCTION.'.split('')
 
 export default function Hero() {
   const { theme } = useTheme()
   const scopeRef = useRef<HTMLElement>(null)
   const typeRef = useRef<HTMLDivElement>(null)
   const wordRef = useRef<HTMLSpanElement>(null)
-  const ctaRef = useRef<HTMLAnchorElement>(null)
   const pointerRef = useRef({ x: -9999, y: -9999, active: false })
   const [interactive, setInteractive] = useState(false)
 
@@ -71,13 +68,7 @@ export default function Hero() {
       <HeroField theme={theme} pointerRef={pointerRef} />
 
       {interactive && (
-        <HeroPointer
-          scopeRef={scopeRef}
-          typeRef={typeRef}
-          wordRef={wordRef}
-          ctaRef={ctaRef}
-          pointerRef={pointerRef}
-        />
+        <HeroPointer scopeRef={scopeRef} wordRef={wordRef} pointerRef={pointerRef} />
       )}
 
       <div className="hero-frame">
@@ -85,42 +76,30 @@ export default function Hero() {
           <span className="hero-meta hero-fade" style={{ animationDelay: '560ms' }}>
             <span className="hero-meta-index">01</span>
             <span className="hero-meta-rule" aria-hidden="true" />
-            AI PRODUCT ENGINEERING
-          </span>
-          <span className="hero-meta hero-fade" style={{ animationDelay: '640ms' }}>
-            <span className="hero-pulse-dot" aria-hidden="true" />
-            SYSTEM ONLINE
+            PRODUCT &amp; AI ENGINEERING STUDIO
           </span>
         </div>
 
         <div ref={typeRef} className="hero-typeblock">
+          {/* One lockup, three lines, one size. The claim is a sentence, so it
+              is set as one - not as a headline with a floating fragment. */}
           <h1 className="hero-type">
-            <span className="hero-line hero-line-1">
-              <span className="hero-word hero-word-product">PRODUCT</span>
-              <span className="hero-slash" aria-hidden="true">
-                /
-              </span>
-            </span>
-
-            {/* AI - a system designation, not a second heading. Drifts on its
-                own cycle, independent of the mass below it. */}
-            <span className="hero-line hero-line-2">
-              <span className="hero-ai-mark" aria-hidden="true">
-                <i className="hero-ai-tick hero-ai-tick-tl" />
-                <i className="hero-ai-tick hero-ai-tick-br" />
-              </span>
-              <span className="hero-word hero-word-ai">AI</span>
-            </span>
-
-            {/* ENGINEERING is a physical object: every letter is addressable,
-                so the word can respond to proximity rather than to :hover. */}
-            <span className="hero-line hero-line-3">
+            <span className="hero-line">
+              <span className="hero-word">AI PRODUCTS</span>
+            </span>{' '}
+            <span className="hero-line">
+              {/* The axis in HeroField anchors to this line's right edge - it
+                  is the short line, so the empty side is genuinely empty. */}
+              <span className="hero-word hero-word-axis">BUILT FOR</span>
+            </span>{' '}
+            {/* PRODUCTION. is a physical object: every letter is addressable,
+                so the payoff answers to proximity rather than to :hover. */}
+            <span className="hero-line">
               {/* No aria-label here: it is prohibited on a generic <span> and
-                  engines increasingly ignore it, which would drop ENGINEERING
-                  from the heading's accessible name entirely. The letters'
-                  own text names the heading instead. */}
+                  engines increasingly ignore it, which would drop the word from
+                  the heading's accessible name. The letters' own text names it. */}
               <span ref={wordRef} className="hero-word-eng">
-                {ENG.map((ch, i) => (
+                {PAYOFF.map((ch, i) => (
                   <span
                     key={i}
                     className="hero-eng-letter"
@@ -132,68 +111,46 @@ export default function Hero() {
               </span>
             </span>
           </h1>
-
-          {/* Scan field - a travelling hairline plus local readouts, masked to
-              a disc at the cursor. Nothing here is ever permanently visible. */}
-          <div className="hero-scan" aria-hidden="true">
-            <span className="hero-scan-line" />
-            <div className="hero-scan-tokens">
-              {SCAN.map((t) => (
-                <span key={t} className="hero-scan-token">
-                  <i />
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="hero-lower">
           <p className="hero-value-line hero-fade" style={{ animationDelay: '860ms' }}>
-            RAG systems, AI agents and LLM infrastructure —{' '}
-            <span className="hero-value-em">engineered for production, not demos.</span>
+            We build RAG systems, AI agents and LLM applications{' '}
+            <span className="hero-value-em">
+              that are secure, scalable and ready for real users.
+            </span>
           </p>
 
+          {/* One row, one hierarchy. The primary action carries the signature
+              device - a signal travelling a path - and nothing else does. */}
           <div className="hero-actions hero-fade" style={{ animationDelay: '940ms' }}>
-            <Link ref={ctaRef} href="/contact" prefetch={true} className="hero-cta">
-              <span className="hero-cta-field" aria-hidden="true" />
-              <span className="hero-cta-signal" aria-hidden="true" />
+            <Link href="/contact" prefetch={true} className="hero-cta">
               <span className="hero-cta-label">LET&apos;S BUILD</span>
               <span className="hero-cta-arrow" aria-hidden="true">
                 →
               </span>
+              <span className="hero-cta-rule" aria-hidden="true">
+                <span className="hero-cta-signal" />
+              </span>
             </Link>
 
-            <Link href="/work" prefetch={true} className="hero-ghost">
-              <span className="hero-ghost-text">VIEW WORK</span>
-              <span aria-hidden="true">↗</span>
-            </Link>
+            <span className="hero-actions-quiet">
+              <Link href="/work" prefetch={true} className="hero-ghost">
+                <span className="hero-ghost-text">VIEW WORK</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+
+              {/* The route back to the person behind the studio. Deliberately
+                  the same weight as VIEW WORK - a way out, not a third button. */}
+              <Link href="/about" prefetch={true} className="hero-ghost">
+                <span className="hero-ghost-text">THE ENGINEER</span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </span>
           </div>
-
-          {/* The route back to the person. The hero presents a system; this
-              traces it to whoever built it, so the identity is reachable from
-              the first screen without competing with the two actions above. */}
-          <Link
-            href="/about"
-            prefetch={true}
-            className="hero-trace hero-fade"
-            style={{ animationDelay: '1020ms' }}
-          >
-            <span className="hero-trace-node" aria-hidden="true" />
-            <span className="hero-trace-track" aria-hidden="true">
-              <span className="hero-trace-pulse" />
-            </span>
-            <span className="hero-trace-label">THE ENGINEER</span>
-            <span className="hero-trace-arrow" aria-hidden="true">
-              →
-            </span>
-          </Link>
         </div>
 
         <div className="hero-rail hero-rail-bottom">
-          <span className="hero-meta hero-meta-dim hero-fade" style={{ animationDelay: '1000ms' }}>
-            RAG / AGENTS / LLM
-          </span>
           <span className="hero-meta hero-meta-dim hero-fade" style={{ animationDelay: '1000ms' }}>
             SCROLL
             <span className="hero-scroll-arrow" aria-hidden="true">

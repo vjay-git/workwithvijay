@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SITE_HOST, SITE_URL } from '@/lib/site'
 import { Archivo, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
@@ -23,9 +24,13 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  // Without metadataBase, Next resolves relative OG/Twitter asset URLs against
+  // localhost in dev and warns in build. It is also the anchor every canonical
+  // in the app derives from.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'COLLAB WITH VIJAY | Product & AI Engineering Studio',
-    template: '%s | workwithvijay.com',
+    template: `%s | ${SITE_HOST}`,
   },
   description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents. A small, senior team that builds serious systems.',
   keywords: [
@@ -49,8 +54,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://workwithvijay.com',
-    siteName: 'workwithvijay.com',
+    url: SITE_URL,
+    siteName: SITE_HOST,
     title: 'COLLAB WITH VIJAY | Product & AI Engineering Studio',
     description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents.',
   },
@@ -97,7 +102,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'COLLAB WITH VIJAY',
-              url: 'https://workwithvijay.com',
+              url: SITE_URL,
               description: 'Product and AI engineering studio specializing in full stack development, RAG systems, and AI agents.',
               foundingDate: '2024',
               knowsAbout: [

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Logo from './Logo'
+import { SITE_HOST } from '@/lib/site'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -12,7 +13,7 @@ export default function Footer() {
             {/* Logo - smaller, quieter, signature-like */}
             <Logo size="sm" className="opacity-70 dark:opacity-90" />
             <div className="text-sm text-neutral-600 dark:text-neutral-400">
-              <p>© {currentYear} workwithvijay.com</p>
+              <p>© {currentYear} {SITE_HOST}</p>
               <p className="mt-1">Product & AI Engineering Studio</p>
             </div>
           </div>

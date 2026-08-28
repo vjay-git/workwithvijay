@@ -1,4 +1,4 @@
-# workwithvijay.com
+# collabwithvijay.com
 
 Personal freelancing website for Vijay, a Full Stack Developer.
 

@@ -1,11 +1,14 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 /**
- * Interaction layer. One pointer listener, one rAF, and everything downstream
- * expressed as CSS custom properties - the cursor, the per-letter response in
- * ENGINEERING, and the parallax base.
+ * Hero interaction layer. One pointer listener, one rAF, and everything
+ * downstream expressed as CSS custom properties - the per-letter response in
+ * ENGINEERING, the parallax base, and --cursor-open for the site cursor.
+ *
+ * It draws nothing. The cursor itself is components/SiteCursor, mounted once
+ * in the root layout; this component only tells it how far to open.
  *
  * Deliberately short. The magnetic CTA and the scan-field lens were removed
  * with the devices they belonged to; what remains is proximity, which is the
@@ -23,14 +26,10 @@ interface Props {
 }
 
 export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
-  const dotRef = useRef<HTMLDivElement>(null)
-  const ringRef = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     const scope = scopeRef.current
-    const dot = dotRef.current
-    const ring = ringRef.current
-    if (!scope || !dot || !ring) return
+    if (!scope) return
+    const root = document.documentElement
 
     let rScope = scope.getBoundingClientRect()
     let rWord: DOMRect | null = null
@@ -60,6 +59,7 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
     let raf = 0
     let running = false
     let letterMax = 0
+    let targetMax = 0
     let open = 0
 
     const frame = () => {
@@ -76,6 +76,7 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
 
       // ---- ENGINEERING responds letter by letter --------------------------
       letterMax = 0
+      targetMax = 0
       if (rWord && letters.length) {
         const wx = client.x - rWord.left
         const wy = client.y - rWord.top
@@ -86,6 +87,7 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
           const dy = (wy - midY) * 0.55
           const d = Math.hypot(dx, dy)
           const target = inside && d < R ? Math.pow(1 - d / R, 2) : 0
+          if (target > targetMax) targetMax = target
           current[i] += (target - current[i]) * 0.16
           const v = current[i]
           if (v > letterMax) letterMax = v
@@ -97,21 +99,24 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
       }
 
       // The ring opens over the word - the cursor acknowledges the one object
-      // on the page that can be touched, and nothing else.
+      // on the page that can be touched, and nothing else. Published on <html>
+      // so the site cursor can scale in CSS, independent of either rAF.
       open += (letterMax - open) * 0.15
-      dot.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0) translate(-50%,-50%)'
-      ring.style.transform =
-        'translate3d(' + eased.x + 'px,' + eased.y + 'px,0) translate(-50%,-50%) scale(' +
-        (1 + open * 0.9).toFixed(3) + ')'
+      root.style.setProperty('--cursor-open', open.toFixed(3))
 
       const moved = Math.abs(client.x - prev.x) > 0.01 || Math.abs(client.y - prev.y) > 0.01
       prev.x = client.x
       prev.y = client.y
+      // Settle against the TARGETS. The old test compared open to letterMax
+      // and let `inside` excuse letterMax entirely, so the stop condition was
+      // a relationship between two lagging values rather than arrival - it
+      // could park a small residual lift. That residual used to die with the
+      // hero; the ring now outlives it, so the loop has to actually arrive.
       const settled =
         Math.abs(eased.x - x) < 0.15 &&
         Math.abs(eased.y - y) < 0.15 &&
-        Math.abs(open - letterMax) < 0.004 &&
-        (inside ? true : letterMax < 0.004)
+        Math.abs(letterMax - targetMax) < 0.004 &&
+        Math.abs(open - letterMax) < 0.004
       if (!moved && settled) {
         running = false
         return
@@ -136,8 +141,6 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
 
       if (within !== inside) {
         inside = within
-        dot.style.opacity = within ? '1' : '0'
-        ring.style.opacity = within ? '1' : '0'
         if (within) {
           eased.x = e.clientX - rScope.left
           eased.y = e.clientY - rScope.top
@@ -184,13 +187,10 @@ export default function HeroPointer({ scopeRef, wordRef, pointerRef }: Props) {
       window.removeEventListener('scroll', remeasure)
       window.removeEventListener('resize', remeasure)
       scope.removeEventListener('animationend', onSettled)
+      // The hero is leaving; the cursor it was opening must close.
+      root.style.setProperty('--cursor-open', '0')
     }
   }, [scopeRef, wordRef, pointerRef])
 
-  return (
-    <div className="hero-cursor-layer" aria-hidden="true">
-      <div ref={ringRef} className="hero-cursor-ring" />
-      <div ref={dotRef} className="hero-cursor-dot" />
-    </div>
-  )
+  return null
 }

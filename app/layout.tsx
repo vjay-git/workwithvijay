@@ -5,6 +5,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+import SiteCursor from '@/components/SiteCursor'
 
 // Display grotesk for the hero's architectural typography. Tight apertures and
 // low stroke contrast hold up at 200px+ where a UI font falls apart.
@@ -80,9 +81,11 @@ export const metadata: Metadata = {
     // google: 'your-verification-code',
   },
   icons: {
-    icon: '/mark.png',
-    shortcut: '/mark.png',
-    apple: '/mark.png',
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    // Opaque ground: iOS composites transparency onto black, which would eat
+    // the mark's rounded corners.
+    apple: '/apple-icon.png',
   },
 }
 
@@ -125,6 +128,8 @@ export default function RootLayout({
       </head>
       <body className={`${archivo.variable} ${jetbrainsMono.variable} min-h-screen flex flex-col bg-neutral-50 text-charcoal dark:bg-charcoal-dark dark:text-neutral-100 transition-colors duration-300`}>
         <ThemeProvider>
+          {/* One cursor for the whole site, above every other plane. */}
+          <SiteCursor />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

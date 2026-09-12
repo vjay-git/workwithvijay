@@ -2,8 +2,11 @@
 
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
+import gsap from 'gsap'
 import portraitImg from '@/public/portrait.jpg'
+import AboutGate from './about/AboutGate'
+import { STAGE_DIAGRAMS, CON_ARCH } from './AboutDiagrams'
 import {
   RagVisual,
   AgentVisual,
@@ -12,12 +15,24 @@ import {
 } from './WorkVisuals'
 
 /* ==========================================================================
-   The portrait. Used twice, treated differently each time:
-     hero   - art-directed editorial crop, edges dissolved into the page
+   The portrait. Used twice, dissolved into the page both times:
+     hero   - an art-directed crop with no edges, fading out into the ground
      human  - a plate held far behind the type, masked on every side
 
    Set to null and both sections stay typographically complete on their own:
    no empty frames, no placeholders.
+
+   The photograph itself is never processed, and it stays in colour. No
+   desaturation, no segmentation, no generation, no retouching of Vijay's face.
+   The only grade is a small contrast/brightness hold-down so a lit photograph
+   sits on a near-black page, plus the gradient that dissolves its edges into
+   the background - both CSS, both reversible, neither of them removing
+   anything from the picture. There is no frame and no crop line: the subject
+   emerges from the page and returns to it. In-browser subject isolation was
+   considered and declined: every credible route to it is a multi-megabyte model
+   download, which is the one thing this page is not allowed to make a reader
+   wait for. The architecture around the portrait carries the treatment instead
+   - see components/about/PortraitFrame.
    ========================================================================== */
 const PORTRAIT: { src: StaticImageData; alt: string } | null = {
   src: portraitImg,
@@ -41,6 +56,22 @@ const MARKS = [
   { k: 'Discipline', v: 'Systems' },
   { k: 'Status', v: 'Building' },
   { k: 'Focus', v: 'AI + Product' },
+]
+
+/**
+ * The four words that stand around the portrait before the headline arrives.
+ *
+ * Every one of them is already on this page - two in the opening paragraph
+ * ("a solution architect and principal engineer"), two in MARKS. Nothing new
+ * is claimed here; they are pulled out and set as standing type because the
+ * opening beat is the portrait, and the portrait needs its annotations before
+ * it needs a sentence.
+ */
+const ORBIT = [
+  { v: 'Solution architect', at: 'tl' },
+  { v: 'Principal engineer', at: 'tr' },
+  { v: 'AI + Product', at: 'br' },
+  { v: 'Systems', at: 'bl' },
 ]
 
 const STRIP = [
@@ -234,19 +265,65 @@ const PROOF = [
 
 const sd = (i: number) => ({ ['--i' as string]: i })
 
+const reduced = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 export default function AboutProfile() {
   const rootRef = useRef<HTMLDivElement>(null)
   const figureRef = useRef<HTMLElement>(null)
   const depthRef = useRef<HTMLDivElement>(null)
 
+  /* ---- the opening -------------------------------------------------------
+     A GSAP timeline rather than the page's IntersectionObserver, because the
+     hero is already on screen when the page loads: an observer fires all of it
+     in the same frame, which is the opposite of the beat this page opens on.
+     Order is the whole point - almost black, then the portrait, then the four
+     annotations around it, and only then the headline.
+
+     useLayoutEffect so the initial states are set before the browser paints;
+     an effect here shows one frame of the finished hero and then hides it.
+     ---------------------------------------------------------------------- */
+  useLayoutEffect(() => {
+    const root = rootRef.current
+    if (!root || reduced()) return
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } })
+
+      gsap.set('.ab-veil', { autoAlpha: 1 })
+      gsap.set('.ab-figure-plate', { autoAlpha: 0, scale: 1.035 })
+      gsap.set('.ab-orbit-item', { autoAlpha: 0, y: 6 })
+      gsap.set('.ab-hero .ab-cin', { autoAlpha: 0, y: 14 })
+      gsap.set('.ab-title .ab-l', { autoAlpha: 0, y: '0.4em' })
+
+      tl.to('.ab-veil', { autoAlpha: 0, duration: 1.1, ease: 'power1.inOut' }, 0)
+        // The portrait arrives first and arrives slowly. Kept short enough that
+        // it is still the LCP paint rather than a thing the reader waits for.
+        .to('.ab-figure-plate', { autoAlpha: 1, scale: 1, duration: 1.15 }, 0.1)
+        .to('.ab-orbit-item', { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.09 }, 0.55)
+        .to('.ab-hero .ab-cin', { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1 }, 0.7)
+        // Line by line, and restrained: three short moves, no character split,
+        // no skew, nothing that draws attention to the animation over the words.
+        .to(
+          '.ab-title .ab-l',
+          { autoAlpha: 1, y: '0em', duration: 0.9, stagger: 0.11 },
+          0.85
+        )
+    }, root)
+
+    return () => ctx.revert()
+  }, [])
+
   // Reveals: one observer, unobserved once fired. Nothing dims after the fact.
+  // The hero is excluded - the timeline above owns it.
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
     const targets = Array.from(root.querySelectorAll<HTMLElement>('.ab-reveal'))
     if (!targets.length) return
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (reduced()) {
       targets.forEach((t) => t.classList.add('is-in'))
       root.style.setProperty('--ab-depth', '1')
       return
@@ -267,12 +344,35 @@ export default function AboutProfile() {
     return () => io.disconnect()
   }, [])
 
+  /* ---- which row the reader is actually on -------------------------------
+     A second, narrow observer. Unlike the reveal pass this one toggles both
+     ways: it marks the stage / layer currently in the middle of the screen so
+     the DOM row and the 3D gate in front of the camera are emphasising the same
+     thing. Without it the spatial layer would light stage 03 while the reader's
+     eye is on 03's paragraph and the page would say nothing about it.
+     ---------------------------------------------------------------------- */
+  useEffect(() => {
+    const root = rootRef.current
+    if (!root || reduced()) return
+    const targets = Array.from(root.querySelectorAll<HTMLElement>('.ab-track'))
+    if (!targets.length) return
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.target.classList.toggle('is-live', e.isIntersecting))
+      },
+      { rootMargin: '-42% 0px -42% 0px', threshold: 0 }
+    )
+    targets.forEach((t) => io.observe(t))
+    return () => io.disconnect()
+  }, [])
+
   // One scroll pass for the three continuous effects: the portrait's parallax,
   // the ground grid's drift, and the drawn line in DEPTH.
   useEffect(() => {
     const root = rootRef.current
     if (!root) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (reduced()) return
 
     let raf = 0
     const apply = () => {
@@ -320,23 +420,32 @@ export default function AboutProfile() {
       <div className="ab-ground" aria-hidden="true" />
       <div className="ab-grid" aria-hidden="true" />
 
+      {/* The spatial layer. Renders nothing unless it decides to run, sits
+          behind every word on the page, and can be deleted from this line
+          without changing a single thing a reader can read. */}
+      <AboutGate />
+
+      {/* Almost black, for a moment. Removed by the hero timeline; never
+          present at all without JavaScript or with reduced motion. */}
+      <div className="ab-veil" aria-hidden="true" />
+
       {/* ══════════════════════════════════════════ 01 · the engineer */}
-      <section className="ab-hero" aria-labelledby="ab-title">
+      <section className="ab-hero" aria-labelledby="ab-title" data-ab-anchor="hero">
         <div className="ab-inner ab-hero-grid">
           <div className="ab-hero-text">
-            <span className="ab-meta ab-reveal">
+            <span className="ab-meta ab-cin">
               <span className="ab-meta-index">About</span>
               <span className="ab-meta-rule" aria-hidden="true" />
               05
             </span>
 
-            <h1 id="ab-title" className="ab-title ab-reveal">
+            <h1 id="ab-title" className="ab-title">
               <span className="ab-l">The engineer</span>
               <span className="ab-l">behind the</span>
               <span className="ab-l">systems.</span>
             </h1>
 
-            <p className="ab-intro ab-reveal">
+            <p className="ab-intro ab-cin">
               I&apos;m Vijay — a solution architect and principal engineer building AI
               systems and the software around them. I work across architecture, product
               engineering, and production infrastructure, with a focus on systems that
@@ -345,24 +454,37 @@ export default function AboutProfile() {
           </div>
 
           {PORTRAIT && (
-            <figure ref={figureRef} className="ab-figure ab-reveal">
-              <div className="ab-figure-plate">
-                <Image
-                  src={PORTRAIT.src}
-                  alt={PORTRAIT.alt}
-                  placeholder="blur"
-                  priority
-                  sizes="(min-width: 1080px) 30rem, 100vw"
-                  className="ab-figure-img"
-                  style={{ objectFit: 'cover', objectPosition: '50% 16%' }}
-                />
-                <span className="ab-figure-scan" aria-hidden="true" />
+            <figure ref={figureRef} className="ab-figure">
+              {/* The plate, its ticks and its annotations share one positioned
+                  box, so the four labels can stand at the corners of the
+                  photograph rather than at the corners of the whole figure. */}
+              <div className="ab-figure-stage">
+                <div className="ab-figure-plate" data-ab-portrait>
+                  <Image
+                    src={PORTRAIT.src}
+                    alt={PORTRAIT.alt}
+                    placeholder="blur"
+                    priority
+                    sizes="(min-width: 1080px) 30rem, 100vw"
+                    className="ab-figure-img"
+                    style={{ objectFit: 'cover', objectPosition: '50% 16%' }}
+                  />
+                  <span className="ab-figure-scan" aria-hidden="true" />
+                </div>
+
+                {/* Standing type around the plate. Set as a list because that
+                    is what it is - four annotations on one subject. */}
+                <ul className="ab-orbit">
+                  {ORBIT.map((o) => (
+                    <li key={o.v} className={'ab-orbit-item ab-orbit-' + o.at}>
+                      <span className="ab-orbit-rule" aria-hidden="true" />
+                      <span className="ab-orbit-v">{o.v}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              <span className="ab-figure-tick ab-figure-tick-tl" aria-hidden="true" />
-              <span className="ab-figure-tick ab-figure-tick-br" aria-hidden="true" />
-
-              <figcaption className="ab-marks">
+              <figcaption className="ab-marks ab-cin">
                 {MARKS.map((m, i) => (
                   <span key={m.k} className="ab-mark" style={sd(i)}>
                     <span className="ab-mark-k">{m.k}</span>
@@ -376,7 +498,7 @@ export default function AboutProfile() {
         </div>
 
         <div className="ab-inner">
-          <dl className="ab-strip ab-reveal">
+          <dl className="ab-strip ab-cin">
             {STRIP.map((s) => (
               <div key={s.k} className="ab-strip-cell">
                 <dt className="ab-strip-k">{s.k}</dt>
@@ -420,89 +542,129 @@ export default function AboutProfile() {
       {/* ══════════════════════════════════════════════ 03 · the path */}
       <Sec index="The path" title="How the range was built." id="path">
         <ol className="ab-path">
-          {PATH.map((s, i) => (
-            <li key={s.n} className="ab-stop ab-reveal" style={sd(i)}>
-              <div className="ab-stop-id">
-                <span className="ab-stop-n" aria-hidden="true">
-                  {s.n}
-                </span>
-                <span className="ab-stop-label">{s.label}</span>
-              </div>
+          {PATH.map((s, i) => {
+            const Diagram = STAGE_DIAGRAMS[i]
+            return (
+              <li
+                key={s.n}
+                className="ab-stop ab-reveal ab-track"
+                style={sd(i)}
+                data-ab-anchor={'stage-' + i}
+              >
+                <div className="ab-stop-id">
+                  <span className="ab-stop-n" aria-hidden="true">
+                    {s.n}
+                  </span>
+                  <span className="ab-stop-label">{s.label}</span>
+                </div>
 
-              <div className="ab-stop-body">
-                {(s.year || s.role || s.org) && (
-                  <p className="ab-stop-head">
-                    {s.year && <span className="ab-stop-year">{s.year}</span>}
-                    {s.role && <span className="ab-stop-role">{s.role}</span>}
-                    {s.org && <span className="ab-stop-org">{s.org}</span>}
+                <div className="ab-stop-body">
+                  {(s.year || s.role || s.org) && (
+                    <p className="ab-stop-head">
+                      {s.year && <span className="ab-stop-year">{s.year}</span>}
+                      {s.role && <span className="ab-stop-role">{s.role}</span>}
+                      {s.org && <span className="ab-stop-org">{s.org}</span>}
+                    </p>
+                  )}
+                  <h3 className="ab-stop-focus">{s.focus}</h3>
+                  <p className="ab-stop-text">{s.text}</p>
+                  <p className="ab-dots">
+                    {s.tech.map((t, k) => (
+                      <span key={t}>
+                        {k > 0 && (
+                          <span className="ab-sep" aria-hidden="true">
+                            ·
+                          </span>
+                        )}
+                        {t}
+                      </span>
+                    ))}
                   </p>
-                )}
-                <h3 className="ab-stop-focus">{s.focus}</h3>
-                <p className="ab-stop-text">{s.text}</p>
-                <p className="ab-dots">
-                  {s.tech.map((t, k) => (
-                    <span key={t}>
-                      {k > 0 && (
-                        <span className="ab-sep" aria-hidden="true">
-                          ·
-                        </span>
-                      )}
-                      {t}
-                    </span>
-                  ))}
-                </p>
-              </div>
-            </li>
-          ))}
+                </div>
+
+                {/* The stage's shape, in the page itself - so the spatial story
+                    survives no WebGL, reduced motion, or a low-power device. */}
+                <div className="ab-stop-vis" aria-hidden="true">
+                  <Diagram />
+                </div>
+              </li>
+            )
+          })}
         </ol>
       </Sec>
 
       {/* ═════════════════════════════════════════ 04 · contributions */}
       <Sec index="Contributions" title="What I've contributed to." id="cons">
         <div className="ab-cons">
-          {CONTRIBUTIONS.map((c, i) => (
-            <article key={c.n} className="ab-con ab-reveal" style={sd(i)}>
-              <div className="ab-con-head">
-                <span className="ab-con-tag">
-                  Contribution <span className="ab-con-tag-n">/ {c.n}</span>
-                </span>
-                <span className="ab-con-rule" aria-hidden="true" />
-                <span className="ab-con-cat">{c.category}</span>
-              </div>
-
-              <h3 className="ab-con-title">{c.title}</h3>
-
-              <div className="ab-con-grid">
-                <Field k="Built">{c.built}</Field>
-                <Field k="Why">{c.why}</Field>
-
-                <div className="ab-con-impact">
-                  <span className="ab-fk">Impact</span>
-                  {/* the only figure on the page, and the only one on record */}
-                  {c.figure && <span className="ab-con-figure">{c.figure}</span>}
-                  <p className="ab-con-impactv">{c.impact}</p>
-                </div>
-              </div>
-
-              {c.tech && (
-                <p className="ab-con-tech">
-                  <span className="ab-fk">Technology</span>
-                  <span className="ab-con-techv">
-                    {c.tech.map((t, k) => (
-                      <span key={t}>
-                        {k > 0 && (
-                          <span className="ab-sep" aria-hidden="true">
-                            /
-                          </span>
-                        )}
-                        {t}
-                      </span>
-                    ))}
+          {CONTRIBUTIONS.map((c, i) => {
+            const Arch = CON_ARCH[i]
+            return (
+              <article
+                key={c.n}
+                className="ab-con ab-reveal"
+                style={sd(i)}
+                data-ab-anchor={'con-' + i}
+              >
+                <div className="ab-con-head">
+                  <span className="ab-con-tag">
+                    Contribution <span className="ab-con-tag-n">/ {c.n}</span>
                   </span>
-                </p>
-              )}
-            </article>
-          ))}
+                  <span className="ab-con-rule" aria-hidden="true" />
+                  <span className="ab-con-cat">{c.category}</span>
+                </div>
+
+                <h3 className="ab-con-title">{c.title}</h3>
+
+                <div className="ab-con-grid">
+                  <Field k="Built">{c.built}</Field>
+                  <Field k="Why">{c.why}</Field>
+
+                  <div className="ab-con-impact">
+                    <span className="ab-fk">Impact</span>
+                    {/* the only figure on the page, and the only one on record */}
+                    {c.figure && <span className="ab-con-figure">{c.figure}</span>}
+                    <p className="ab-con-impactv">{c.impact}</p>
+                  </div>
+                </div>
+
+                {/* Held back until the card is addressed. Opacity and transform
+                    only - never display:none - so the detail is in the
+                    accessibility tree and in the page source at all times. */}
+                <div className="ab-con-more">
+                  <div className="ab-con-more-in">
+                    {c.tech && (
+                      <p className="ab-con-tech">
+                        <span className="ab-fk">Technology</span>
+                        <span className="ab-con-techv">
+                          {c.tech.map((t, k) => (
+                            <span key={t}>
+                              {k > 0 && (
+                                <span className="ab-sep" aria-hidden="true">
+                                  /
+                                </span>
+                              )}
+                              {t}
+                            </span>
+                          ))}
+                        </span>
+                      </p>
+                    )}
+
+                    <div className="ab-con-arch" aria-hidden="true">
+                      <Arch />
+                    </div>
+
+                    <Link href="/work" prefetch={true} className="ab-con-cta">
+                      <span className="ab-con-cta-label">View system</span>
+                      <span aria-hidden="true">&rarr;</span>
+                    </Link>
+                  </div>
+                </div>
+
+                <span className="ab-con-edge" aria-hidden="true" />
+              </article>
+            )
+          })}
         </div>
       </Sec>
 
@@ -516,14 +678,19 @@ export default function AboutProfile() {
             <span className="ab-l">infrastructure.</span>
           </h2>
 
-          <div ref={depthRef} className="ab-strata">
+          <div ref={depthRef} className="ab-strata" data-ab-anchor="stack">
             {/* the line draws against scroll rather than on a timer */}
             <span className="ab-strata-line" aria-hidden="true">
               <span className="ab-strata-fill" />
             </span>
 
             {DEPTH.map((d, i) => (
-              <div key={d.n} className="ab-layer ab-reveal" style={sd(i)}>
+              <div
+                key={d.n}
+                className="ab-layer ab-reveal ab-track"
+                style={sd(i)}
+                data-ab-anchor={'layer-' + i}
+              >
                 <span className="ab-layer-node" aria-hidden="true" />
                 <span className="ab-layer-n">{d.n}</span>
                 <h3 className="ab-layer-name">{d.layer}</h3>
@@ -539,38 +706,69 @@ export default function AboutProfile() {
                     </span>
                   ))}
                 </p>
+
+                {/* The two things that make this a stack rather than a list:
+                    a contract on each flank, and one direction of travel. */}
+                <span className="ab-layer-ports" aria-hidden="true" />
+                {i < DEPTH.length - 1 && (
+                  <span className="ab-layer-flow" aria-hidden="true" />
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════ 06 · principles */}
-      <Sec index="How I build" title="Five rules that don't bend." id="prin">
-        <ol className="ab-prins">
-          {PRINCIPLES.map((p, i) => (
-            <li key={p.n} className="ab-prin ab-reveal" style={sd(i)}>
-              <span className="ab-prin-n" aria-hidden="true">
-                {p.n}
-              </span>
-              <div className="ab-prin-body">
-                <h3 className="ab-prin-label">{p.label}</h3>
-                <p className="ab-prin-text">{p.text}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+      {/* ═══════════════════════════════════════════ 06 · principles
+          The calm section. No spatial layer, no diagram, no device - the brief
+          for this one is typography, spacing and restraint, and the fastest way
+          to break it is to add something. */}
+      <section className="ab-rules" aria-labelledby="ab-rules-title">
+        <div className="ab-inner">
+          <span className="ab-meta ab-reveal">
+            <span className="ab-meta-index">How I build</span>
+            <span className="ab-meta-rule" aria-hidden="true" />
+          </span>
 
-        <p className="ab-note">
-          <Link href="/approach" prefetch={true} className="ab-note-link">
-            Approach
-          </Link>{' '}
-          shows where each of these lands in the process.
-        </p>
-      </Sec>
+          <h2 id="ab-rules-title" className="ab-rules-title ab-reveal">
+            <span className="ab-l">Five rules</span>
+            <span className="ab-l">that don&apos;t bend.</span>
+          </h2>
+
+          <ol className="ab-prins" data-ab-anchor="calm">
+            {PRINCIPLES.map((p, i) => (
+              <li key={p.n} className="ab-prin ab-reveal" style={sd(i)}>
+                <span className="ab-prin-n" aria-hidden="true">
+                  {p.n}
+                </span>
+                <div className="ab-prin-body">
+                  <h3 className="ab-prin-label">{p.label}</h3>
+                  <p className="ab-prin-text">{p.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <p className="ab-note ab-reveal">
+            <Link href="/approach" prefetch={true} className="ab-note-link">
+              Approach
+            </Link>{' '}
+            shows where each of these lands in the process.
+          </p>
+        </div>
+      </section>
 
       {/* ════════════════════════════════════════ 07 · human element */}
-      <section className="ab-human" aria-labelledby="ab-human-title">
+      <section
+        className="ab-human"
+        aria-labelledby="ab-human-title"
+        data-ab-anchor="human"
+      >
+        {/* The grid, the ground and every hairline are pulled out from under
+            this section. It is the one screen on the page where nothing but the
+            sentence and the face is allowed to be doing anything. */}
+        <span className="ab-human-clear" aria-hidden="true" />
+
         {PORTRAIT && (
           <div className="ab-human-plate" aria-hidden="true">
             <Image
@@ -638,7 +836,7 @@ export default function AboutProfile() {
       </section>
 
       {/* ═════════════════════════════════════════════════ 09 · close */}
-      <section className="ab-cta" aria-labelledby="ab-cta-title">
+      <section className="ab-cta" aria-labelledby="ab-cta-title" data-ab-anchor="out">
         <div className="ab-inner">
           <span className="ab-meta ab-reveal">
             <span className="ab-meta-index">Contact</span>

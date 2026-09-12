@@ -1133,34 +1133,50 @@ html:not(.dark) .hero-stage {
 
 /* --- cursor --------------------------------------------------------------- */
 /* Neutral ring, one accent pixel. It opens over ENGINEERING and nowhere else. */
-.hero-cursor-layer {
-  position: absolute;
+/* The cursor is site-wide, so it cannot borrow the hero's tokens - it carries
+   its own, and z-index 100 puts it over the intro film (90), the nav overlay
+   (60) and the sticky header (50). Rendered by components/SiteCursor. */
+.site-cursor-layer {
+  --cursor-accent: #5ce1e6;
+  --cursor-hair: rgba(238, 242, 244, 0.26);
+
+  position: fixed;
   inset: 0;
-  z-index: 5;
+  z-index: 100;
   pointer-events: none;
 }
 
-.hero-cursor-dot,
-.hero-cursor-ring {
+html:not(.dark) .site-cursor-layer {
+  --cursor-accent: #0097b2;
+  --cursor-hair: rgba(20, 24, 26, 0.3);
+}
+
+.site-cursor-dot,
+.site-cursor-ring {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
-  border-radius: 50%;
   transition: opacity 240ms ease;
   will-change: transform;
 }
 
-.hero-cursor-dot {
+.site-cursor-dot {
   width: 4px;
   height: 4px;
-  background: var(--hero-accent);
+  border-radius: 50%;
+  background: var(--cursor-accent);
 }
 
-.hero-cursor-ring {
+/* Two nested marks: the outer is positioned by JS, the inner is scaled by
+   --cursor-open (written by the hero while the pointer is over ENGINEERING).
+   Splitting them keeps the two animations from having to share a transform. */
+.site-cursor-ring-inner {
   width: 28px;
   height: 28px;
-  border: 1px solid var(--hero-ink-faint);
+  border-radius: 50%;
+  border: 1px solid var(--cursor-hair);
+  transform: scale(calc(1 + var(--cursor-open, 0) * 0.9));
 }
 
 /* --- boot ----------------------------------------------------------------- */
@@ -6744,6 +6760,61 @@ html:not(.dark) .ab {
   mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
 }
 
+/* --- the spatial layer ---------------------------------------------------
+   Fixed, and deliberately unclipped. Every section on this page is z-index 1
+   and the ground and the grid are z-index 0, so a z-index 0 element written
+   after them in the markup lands exactly where this belongs: over the
+   background, under every word. .ab sets overflow:hidden but no transform,
+   filter, perspective or containment, so it is not a containing block for a
+   fixed child and does not clip this.
+
+   Faded in rather than switched on: the canvas mounts on an idle callback,
+   which can land at any moment, and geometry appearing between two frames
+   would be the one abrupt thing on the page.
+   ------------------------------------------------------------------------ */
+.ab-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: ab-stage-in 1400ms var(--a-ease) 200ms forwards;
+}
+
+.ab-stage canvas {
+  display: block;
+}
+
+@keyframes ab-stage-in {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Two line systems at full strength over one another is noise. The flat grid
+   steps back for the one that is actually describing something - and only once
+   the canvas is genuinely painting, which is what AboutGate marks. */
+html[data-ab-stage='on'] .ab-grid {
+  opacity: 0.5;
+  transition: opacity 1200ms var(--a-ease);
+}
+
+/* --- almost black, for a moment -----------------------------------------
+   The page's own background brought forward over everything, so the portrait
+   arrives into an empty frame instead of onto a finished layout. Hidden by
+   default and only ever revealed by the hero timeline, which means no
+   JavaScript and reduced motion both never see it at all.
+   ------------------------------------------------------------------------ */
+.ab-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background: var(--a-bg);
+  opacity: 0;
+  visibility: hidden;
+}
+
 .ab-inner {
   position: relative;
   z-index: 1;
@@ -6919,23 +6990,54 @@ html:not(.dark) .ab {
   will-change: transform;
 }
 
+/* The image has no edges. It stops existing instead.
+
+   Two masks, multiplied together. One is a subject-centred ellipse that eases
+   the room away around the head and shoulders; the other is a vertical ramp
+   that takes the ceiling and the floor. mask-composite intersects them, so the
+   result is the product of both alphas - the head stays at full strength and
+   everything that is merely background falls off to nothing.
+
+   Masked rather than painted over. An overlay in the page colour would have
+   looked identical on a flat background and been wrong the moment anything sat
+   behind it: the grid, and the soft light the WebGL layer puts behind the
+   subject (components/about/PortraitField), both have to show THROUGH the part
+   of the photograph that has gone. Painting hides them; masking does not.
+
+   Where mask-composite is unsupported the two masks union instead of
+   intersecting, which is simply a larger opaque area - a softer vignette, not
+   a broken one. */
 .ab-figure-plate {
   position: relative;
   overflow: hidden;
-  /* The image has no edges - it stops existing instead. Masked on all four
-     sides so it dissolves into the page rather than sitting in a frame. */
-  -webkit-mask-image: radial-gradient(
-    118% 96% at 46% 30%,
-    #000 34%,
-    rgba(0, 0, 0, 0.72) 62%,
-    transparent 96%
-  );
-  mask-image: radial-gradient(
-    118% 96% at 46% 30%,
-    #000 34%,
-    rgba(0, 0, 0, 0.72) 62%,
-    transparent 96%
-  );
+  -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 13%,
+      #000 40%,
+      transparent 98%
+    ),
+    radial-gradient(
+      60% 58% at 55% 40%,
+      #000 30%,
+      rgba(0, 0, 0, 0.55) 64%,
+      transparent 100%
+    );
+  mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 13%,
+      #000 40%,
+      transparent 98%
+    ),
+    radial-gradient(
+      60% 58% at 55% 40%,
+      #000 30%,
+      rgba(0, 0, 0, 0.55) 64%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .ab-figure-img {
@@ -6943,16 +7045,17 @@ html:not(.dark) .ab {
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 5;
-  /* Near-monochrome, deep blacks, held slightly cool so it sits in the palette.
-     Not fully desaturated: a trace of skin tone is the difference between a
-     person and a stock asset on the page that has to read as human. */
-  filter: grayscale(0.9) contrast(1.16) brightness(0.82) saturate(1.1);
+  /* Colour, unconverted. The only grade is the small amount of contrast and
+     hold-down needed to seat a lit photograph on a near-black page - take even
+     that away and the image glares against everything around it. Nothing here
+     removes information from the picture. */
+  filter: contrast(1.06) brightness(0.9) saturate(1.02);
   transition: filter 1100ms var(--a-ease);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .ab-figure:hover .ab-figure-img {
-    filter: grayscale(0.4) contrast(1.06) brightness(0.94) saturate(1.05);
+    filter: contrast(1.02) brightness(1) saturate(1.04);
   }
 }
 
@@ -6961,11 +7064,14 @@ html:not(.dark) .ab {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Lighter than it was: a screen-blend pass reads as a cyan cast over colour
+     where it read as a highlight over grey. It is a sweep of light, not a
+     filter on the subject. */
   background: linear-gradient(
     104deg,
-    transparent 34%,
-    rgba(92, 225, 230, 0.14) 48%,
-    rgba(92, 225, 230, 0.03) 56%,
+    transparent 36%,
+    rgba(92, 225, 230, 0.075) 48%,
+    rgba(92, 225, 230, 0.02) 56%,
     transparent 68%
   );
   mix-blend-mode: screen;
@@ -6975,35 +7081,94 @@ html:not(.dark) .ab-figure-scan {
   display: none;
 }
 
-.ab-figure-tick {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-color: var(--a-accent-dim);
-  border-style: solid;
-  border-width: 0;
+/* --- the annotations that stand around the subject -----------------------
+   Below 900px they are a wrapped row under the plate, because four absolute
+   labels on a 360px-wide photograph is not editorial, it is a collision. Above
+   it they leave the flow and take the corners.
+   ------------------------------------------------------------------------ */
+.ab-figure-stage {
+  position: relative;
 }
 
-.ab-figure-tick-tl {
-  top: 0;
-  left: 0;
-  border-top-width: 1px;
-  border-left-width: 1px;
+.ab-orbit {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 1rem 0 0;
+  padding: 0;
 }
 
-.ab-figure-tick-br {
-  right: 0;
-  bottom: 0;
-  border-right-width: 1px;
-  border-bottom-width: 1px;
+.ab-orbit-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  color: var(--a-faint);
+  white-space: nowrap;
+}
+
+.ab-orbit-rule {
+  width: 0.9rem;
+  height: 1px;
+  background: var(--a-accent-dim);
+}
+
+@media (min-width: 900px) {
+  .ab-orbit {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  /* The corners are now background rather than photograph, so these are read
+     against the page and take the page's own ink - a light-on-image colour
+     would have gone invisible on the light theme the moment the crop
+     dissolved. The shadow is only there for the few that land on the subject. */
+  .ab-orbit-item {
+    position: absolute;
+    color: var(--a-dim);
+    text-shadow: 0 1px 12px var(--a-bg);
+  }
+
+  .ab-orbit-tl {
+    top: 0.4rem;
+    left: 0.2rem;
+  }
+
+  .ab-orbit-tr {
+    top: 0.4rem;
+    right: 0.2rem;
+    flex-direction: row-reverse;
+  }
+
+  /* Held clear of the readout below, which now sits up inside the fade. */
+  .ab-orbit-bl {
+    bottom: 26%;
+    left: 0.2rem;
+  }
+
+  .ab-orbit-br {
+    bottom: 26%;
+    right: 0.2rem;
+    flex-direction: row-reverse;
+  }
 }
 
 /* --- annotations: a two-column readout under the plate ------------------- */
+/* Pulled up into the fade rather than parked under a picture. There is no
+   bottom edge to sit below any more, and a gap where one used to be reads as
+   a missing object. */
 .ab-marks {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem clamp(1rem, 3vw, 1.75rem);
-  margin: clamp(1.25rem, 3vh, 1.75rem) 0 0;
+  margin: clamp(-4rem, -7vh, -2rem) 0 0;
 }
 
 .ab-mark {
@@ -7229,6 +7394,81 @@ html:not(.dark) .ab-figure-scan {
   }
 }
 
+/* Wide enough to stand the stage's own shape beside its paragraph rather than
+   under it. Below this the drawing follows the text, which is the right order
+   to read them in anyway. */
+@media (min-width: 1180px) {
+  .ab-stop {
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) minmax(0, 15rem);
+    align-items: start;
+  }
+}
+
+/* --- the stage's shape ---------------------------------------------------
+   The same topology the corridor draws in WebGL, in flat SVG. This is not a
+   thumbnail of the 3D - it is the fallback that carries the spatial story when
+   the 3D is not there at all: reduced motion, no WebGL, a two-core phone, or
+   JavaScript off entirely.
+   ------------------------------------------------------------------------ */
+.ab-stop-vis {
+  margin-top: clamp(1.25rem, 3vh, 1.75rem);
+  max-width: 22rem;
+}
+
+@media (min-width: 1180px) {
+  .ab-stop-vis {
+    margin-top: 0.35rem;
+    max-width: none;
+  }
+}
+
+.abd {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.abd-frame,
+.abd-wire,
+.abd-soft {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
+  transition: stroke 760ms ease, opacity 760ms ease;
+}
+
+.abd-frame {
+  stroke: var(--a-rule);
+}
+
+.abd-wire {
+  stroke: var(--a-faint);
+}
+
+.abd-soft {
+  stroke: var(--a-hair);
+}
+
+/* Only the row the reader is level with is fully drawn. The rest stays as
+   structure - which is exactly what the gates in the corridor are doing at the
+   same moment, one layer behind. */
+.ab-stop .abd {
+  opacity: 0.5;
+  transition: opacity 760ms var(--a-ease);
+}
+
+.ab-stop.is-live .abd {
+  opacity: 1;
+}
+
+.ab-stop.is-live .abd-live {
+  stroke: var(--a-accent);
+}
+
+.ab-stop.is-live .abd-wire {
+  stroke: var(--a-accent-dim);
+}
+
 .ab-stop-n {
   display: block;
   font-family: var(--font-display), Archivo, 'Helvetica Neue', Arial, sans-serif;
@@ -7306,19 +7546,81 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
 }
 
 /* ==========================================================================
-   04 - contributions. Evidence records: rules and columns, not cards.
+   04 - contributions. Four architectural cards, given real depth.
+
+   Not glassmorphic, and not tiles. The surface is the page's own background
+   behind a hairline, the way every other panel on this site is built. What the
+   card adds is DEPTH: a plate standing behind its face in 3D (see
+   components/about/ContributionCards), a rise toward the viewer when it is
+   addressed, and a second register of information that only exists at that
+   point.
+
+   That second register is a 0fr -> 1fr grid row rather than display:none or an
+   animated height. It moves cleanly, and the content stays in the DOM and in
+   the accessibility tree throughout - which matters, because one of the things
+   in there is a link.
    ========================================================================== */
 .ab-cons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
   margin: clamp(2rem, 5vh, 3rem) 0 0;
 }
 
-.ab-con {
-  padding: clamp(2rem, 5vh, 2.75rem) 0;
-  border-top: 1px solid var(--a-hair);
+@media (min-width: 1000px) {
+  .ab-cons {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
-.ab-con:last-child {
-  border-bottom: 1px solid var(--a-hair);
+.ab-con {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border: 1px solid var(--a-hair);
+  border-radius: 2px;
+  background: rgba(238, 242, 244, 0.014);
+  transition: transform 620ms var(--a-ease), border-color 620ms ease,
+    background-color 620ms ease, box-shadow 620ms ease;
+}
+
+html:not(.dark) .ab-con {
+  background: rgba(255, 255, 255, 0.66);
+}
+
+/* one line, drawn from the left. Not a glow, and not a border that lights up */
+.ab-con-edge {
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: -1px;
+  height: 1px;
+  background: linear-gradient(to right, var(--a-accent), transparent 76%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 720ms var(--a-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ab-con:hover,
+  .ab-con:focus-within {
+    transform: translateY(-6px);
+    border-color: var(--a-rule);
+    background: rgba(238, 242, 244, 0.03);
+    box-shadow: 0 26px 64px -34px rgba(0, 0, 0, 0.82);
+  }
+
+  html:not(.dark) .ab-con:hover,
+  html:not(.dark) .ab-con:focus-within {
+    background: #ffffff;
+    box-shadow: 0 22px 52px -34px rgba(20, 24, 26, 0.45);
+  }
+
+  .ab-con:hover .ab-con-edge,
+  .ab-con:focus-within .ab-con-edge {
+    transform: scaleX(1);
+  }
 }
 
 .ab-con-head {
@@ -7355,29 +7657,19 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
   margin: clamp(1rem, 2.5vh, 1.5rem) 0 0;
   font-family: var(--font-display), Archivo, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(1.375rem, 3vw, 2.125rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
   letter-spacing: -0.032em;
   line-height: 1.06;
   color: var(--a-ink);
 }
 
+/* One column inside a card that is now half the width it used to be. The
+   impact block keeps its separation, as a rule above rather than beside. */
 .ab-con-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: clamp(1.25rem, 3vh, 1.75rem);
+  gap: clamp(1rem, 2.5vh, 1.35rem);
   margin-top: clamp(1.25rem, 3vh, 1.75rem);
-}
-
-@media (min-width: 1000px) {
-  .ab-con-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.95fr);
-    column-gap: clamp(1.5rem, 3.5vw, 2.75rem);
-  }
-
-  .ab-con-impact {
-    padding-left: clamp(1.5rem, 3.5vw, 2.75rem);
-    border-left: 1px solid var(--a-hair);
-  }
 }
 
 .ab-fv {
@@ -7392,12 +7684,17 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
   margin: 0;
 }
 
+.ab-con-impact {
+  padding-top: clamp(1rem, 2.5vh, 1.25rem);
+  border-top: 1px solid var(--a-hair);
+}
+
 .ab-con-figure {
   display: block;
   margin-top: 0.5rem;
   font-family: var(--font-display), Archivo, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 800;
-  font-size: clamp(2.5rem, 5.5vw, 3.5rem);
+  font-size: clamp(2.25rem, 4.4vw, 3rem);
   line-height: 0.9;
   letter-spacing: -0.05em;
   color: var(--a-accent);
@@ -7408,10 +7705,44 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
   margin: 0.6rem 0 0;
   font-family: var(--font-display), Archivo, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(0.9375rem, 1.8vw, 1.125rem);
+  font-size: clamp(0.9375rem, 1.8vw, 1.0625rem);
   letter-spacing: -0.018em;
   line-height: 1.24;
   color: var(--a-ink);
+}
+
+/* --- the second register ------------------------------------------------- */
+.ab-con-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: auto;
+  opacity: 0;
+  transition: grid-template-rows 700ms var(--a-ease), opacity 520ms ease;
+}
+
+.ab-con-more > * {
+  min-height: 0;
+}
+
+/* A card with no pointer has nothing to reveal on, so it reveals nothing:
+   everything is simply present. Same for anyone arriving by keyboard. */
+@media (hover: none), (pointer: coarse) {
+  .ab-con-more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ab-con:hover .ab-con-more,
+  .ab-con:focus-within .ab-con-more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+.ab-con-more-in {
+  overflow: hidden;
 }
 
 .ab-con-tech {
@@ -7436,6 +7767,93 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
   letter-spacing: 0.1em;
   text-transform: none;
   color: var(--a-dim);
+}
+
+/* --- the architecture ----------------------------------------------------
+   Micro, horizontal and unlabelled, deliberately in a different register from
+   the four Work drawings further down the page. Two identical diagrams of one
+   system is not proof, it is repetition.
+   ------------------------------------------------------------------------ */
+.ab-con-arch {
+  margin-top: clamp(1.25rem, 3vh, 1.5rem);
+}
+
+.abc {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 22rem;
+  overflow: visible;
+}
+
+.abc-frame,
+.abc-wire,
+.abc-soft {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
+}
+
+.abc-frame {
+  stroke: var(--a-rule);
+}
+
+.abc-soft-frame {
+  stroke: var(--a-hair);
+}
+
+.abc-wire {
+  stroke: var(--a-faint);
+}
+
+.abc-soft {
+  stroke: var(--a-hair);
+}
+
+.ab-con:hover .abc-live,
+.ab-con:focus-within .abc-live {
+  stroke: var(--a-accent);
+}
+
+.ab-con-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  margin-top: clamp(0.75rem, 2vh, 1rem);
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  font-size: 0.5625rem;
+  letter-spacing: 0.22em;
+  color: var(--a-dim);
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+
+.ab-con-cta:hover,
+.ab-con-cta:focus-visible {
+  color: var(--a-accent);
+}
+
+.ab-con-cta-label {
+  position: relative;
+}
+
+.ab-con-cta-label::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 340ms var(--a-ease);
+}
+
+.ab-con-cta:hover .ab-con-cta-label::after,
+.ab-con-cta:focus-visible .ab-con-cta-label::after {
+  transform: scaleX(1);
 }
 
 /* ==========================================================================
@@ -7526,21 +7944,141 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
   color: var(--a-dim);
 }
 
+/* The two additions that turn six rows into one system: a contract on the
+   flank of every layer, and one unambiguous direction of travel between them.
+   Without the arrows this section is a list of technologies; with them it is
+   a stack, which is what the heading has been claiming all along. */
+.ab-layer-ports {
+  position: absolute;
+  right: 0;
+  top: calc(clamp(1.25rem, 3.5vh, 2rem) + 0.5em);
+  width: clamp(2rem, 6vw, 4.5rem);
+  height: 1px;
+  background: linear-gradient(to left, var(--a-rule), transparent);
+  transition: background 700ms ease;
+}
+
+.ab-layer-ports::before,
+.ab-layer-ports::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1px;
+  height: 7px;
+  background: var(--a-faint);
+  transition: background-color 700ms ease;
+}
+
+.ab-layer-ports::before {
+  top: -3px;
+}
+
+.ab-layer-ports::after {
+  top: -3px;
+  right: 6px;
+}
+
+.ab-layer.is-live .ab-layer-ports {
+  background: linear-gradient(to left, var(--a-accent-dim), transparent);
+}
+
+.ab-layer.is-live .ab-layer-ports::before,
+.ab-layer.is-live .ab-layer-ports::after {
+  background: var(--a-accent);
+}
+
+/* Sits on the same axis as the nodes, pointing at the next one down. */
+.ab-layer-flow {
+  position: absolute;
+  left: calc(clamp(2rem, 5vw, 3.5rem) * -1 + 4px);
+  bottom: -5px;
+  width: 9px;
+  height: 9px;
+}
+
+.ab-layer-flow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid var(--a-faint);
+  border-bottom: 1px solid var(--a-faint);
+  transform: translateX(-2px) rotate(45deg);
+  transition: border-color 700ms ease;
+}
+
+.ab-layer.is-live .ab-layer-flow::after {
+  border-color: var(--a-accent-dim);
+}
+
+.ab-layer-name {
+  transition: color 700ms ease;
+}
+
+.ab-layer.is-live .ab-layer-name {
+  color: var(--a-ink);
+}
+
+.ab-layer:not(.is-live) .ab-layer-name {
+  color: var(--a-dim);
+}
+
 /* ==========================================================================
-   06 - principles
+   06 - principles. The calm section.
+
+   Deliberately the quietest block on the page: no diagram, no drawn line, no
+   spatial layer (the scene fades itself out here - see `calm` in
+   components/about/AboutCanvas). What is left is a display headline set over
+   two lines, a lot of air, and five rules on hairlines. If this section ever
+   needs a device to hold attention, the rules are not written well enough.
    ========================================================================== */
+.ab-rules {
+  position: relative;
+  z-index: 1;
+  padding: clamp(5rem, 14vh, 9rem) 0 clamp(4rem, 11vh, 7rem);
+  border-top: 1px solid var(--a-hair);
+}
+
+.ab-rules-title {
+  margin: clamp(1.5rem, 3.5vh, 2.25rem) 0 0;
+  font-family: var(--font-display), Archivo, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(2.25rem, 7.2vw, 5.25rem);
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  color: var(--a-ink);
+}
+
 .ab-prins {
   list-style: none;
-  margin: clamp(2rem, 5vh, 3rem) 0 0;
+  margin: clamp(3rem, 8vh, 5rem) 0 0;
   padding: 0;
 }
 
+/* More air per rule than anywhere else on the page, and the number set as a
+   column of its own so the five read as a numbered series rather than a list
+   with digits in front of it. */
 .ab-prin {
   display: grid;
   grid-template-columns: 2.5rem minmax(0, 1fr);
   gap: 0 clamp(0.75rem, 2.5vw, 1.5rem);
-  padding: clamp(1.5rem, 4vh, 2.25rem) 0;
+  padding: clamp(2rem, 5.5vh, 3rem) 0;
   border-top: 1px solid var(--a-hair);
+}
+
+@media (min-width: 900px) {
+  .ab-prin {
+    grid-template-columns: 4.5rem minmax(0, 22rem) minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  .ab-prin-body {
+    display: contents;
+  }
 }
 
 .ab-prin:last-child {
@@ -7583,13 +8121,46 @@ html:not(.dark) .ab-stop.is-in .ab-stop-n {
    ========================================================================== */
 .ab-human {
   position: relative;
-  padding: clamp(6rem, 17vh, 11rem) 0;
+  padding: clamp(8rem, 24vh, 15rem) 0;
   overflow: hidden;
+}
+
+/* Everything under this section is taken away: the grid, the hairlines, and
+   whatever the spatial layer still had on screen. One sentence and one face is
+   the entire composition, and the fastest way to weaken it is to leave the
+   page's furniture running underneath.
+
+   Full-bleed rather than inset, because .ab-inner is 80rem and the grid is not. */
+.ab-human-clear {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    72% 62% at 50% 50%,
+    var(--a-bg) 46%,
+    color-mix(in srgb, var(--a-bg) 82%, transparent) 70%,
+    transparent 100%
+  );
+}
+
+/* color-mix is not universal yet; the two-stop version reads almost the same
+   and is what older engines will use. */
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  .ab-human-clear {
+    background: radial-gradient(72% 62% at 50% 50%, var(--a-bg) 52%, transparent 100%);
+  }
 }
 
 /* A true silhouette is not available from a subject shot against a bright
    room - pushing contrast would surface the office, not lose it. So the image
-   is held back instead: low opacity, masked on every side, behind the type. */
+   is held back instead: low opacity, masked on every side, behind the type.
+   Still the colour photograph; the section reads dark because the plate is at
+   a fifth of its strength, not because the picture was drained. */
 .ab-human-plate {
   position: absolute;
   top: 50%;
@@ -7612,11 +8183,11 @@ html:not(.dark) .ab-human-plate {
   display: block;
   width: 100%;
   height: 100%;
-  filter: grayscale(1) contrast(1.3) brightness(0.62);
+  filter: contrast(1.24) brightness(0.68);
 }
 
 html:not(.dark) .ab-human-img {
-  filter: grayscale(1) contrast(1.15) brightness(1.05);
+  filter: contrast(1.12) brightness(1.04);
 }
 
 .ab-human-inner {
@@ -7625,11 +8196,35 @@ html:not(.dark) .ab-human-img {
 }
 
 .ab-human-title {
-  font-size: clamp(1.875rem, 6vw, 4.5rem);
+  font-size: clamp(2rem, 6.8vw, 5.25rem);
+}
+
+/* The one place on the page where a reveal is allowed to take its time. Twice
+   the duration of everything else, and a longer hold between lines: the
+   section is the conclusion, and it should arrive at reading speed. */
+.ab-armed .ab-human-title.ab-reveal .ab-l {
+  transition-duration: 1500ms;
+}
+
+.ab-armed .ab-human-title.ab-reveal.is-in .ab-l:nth-child(2) {
+  transition-delay: 240ms;
+}
+
+.ab-armed .ab-human-title.ab-reveal.is-in .ab-l:nth-child(3) {
+  transition-delay: 520ms;
+}
+
+.ab-armed .ab-human-title.ab-reveal.is-in .ab-l:nth-child(4) {
+  transition-delay: 760ms;
+}
+
+.ab-armed .ab-human-body.ab-reveal {
+  transition-duration: 1400ms;
+  transition-delay: 900ms;
 }
 
 .ab-human-body {
-  margin: clamp(2rem, 5vh, 3rem) 0 0;
+  margin: clamp(2.5rem, 6vh, 3.5rem) 0 0;
   max-width: 38rem;
   font-size: 1rem;
   line-height: 1.82;
@@ -7988,8 +8583,51 @@ html:not(.dark) .ab-human-img {
 
 /* --- reduced motion ------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
+  /* The spatial layer never mounts at all under reduced motion (AboutGate
+     returns null before importing it), so there is nothing here to switch off.
+     The veil is never revealed either - it starts hidden and only the hero
+     timeline, which also does not run, would show it. */
+  .ab-stage {
+    animation: none;
+    opacity: 1;
+  }
+
+  .ab-con,
+  .ab-con-edge,
+  .ab-con-more,
+  .ab-con-cta,
+  .ab-con-cta-label::after,
+  .ab-layer-ports,
+  .ab-layer-ports::before,
+  .ab-layer-ports::after,
+  .ab-layer-flow::after,
+  .ab-layer-name,
+  .ab-stop .abd,
+  .abd-frame,
+  .abd-wire,
+  .abd-soft {
+    transition: none;
+  }
+
+  /* Nothing to hover with and nothing to wait for: every card is fully open. */
+  .ab-con-more {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .ab-con:hover,
+  .ab-con:focus-within {
+    transform: none;
+  }
+
+  .ab-stop .abd {
+    opacity: 1;
+  }
+
   .ab-armed .ab-reveal,
   .ab-armed .ab-reveal .ab-l,
+  .ab-armed .ab-human-title.ab-reveal .ab-l,
+  .ab-armed .ab-human-body.ab-reveal,
   .ab-figure-img,
   .ab-stop-n,
   .ab-layer-node,
@@ -8009,6 +8647,7 @@ html:not(.dark) .ab-human-img {
   .ab-armed .ab-reveal .ab-l {
     opacity: 1;
     transform: none;
+    transition-delay: 0ms;
   }
 
   .ab-grid,

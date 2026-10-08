@@ -1232,9 +1232,25 @@ html:not(.dark) .wa-badge-mail {
 }
 
 @media (max-width: 640px) {
+  .wa-stack {
+    right: max(0.875rem, env(safe-area-inset-right));
+    bottom: max(0.875rem, env(safe-area-inset-bottom));
+    gap: 0.5rem;
+  }
+
   .wa-badge {
-    width: 3rem;
-    height: 3rem;
+    width: 2.625rem;
+    height: 2.625rem;
+  }
+
+  .wa-badge svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .wa-badge-mail svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -7235,7 +7251,15 @@ html:not(.dark) .ab-figure-scan {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem clamp(1rem, 3vw, 1.75rem);
-  margin: clamp(-4rem, -7vh, -2rem) 0 0;
+  margin: 1.25rem 0 0;
+}
+
+/* Below 900px the orbit labels are an in-flow row under the plate, so pulling
+   the readout up would land it on top of them. */
+@media (min-width: 900px) {
+  .ab-marks {
+    margin: clamp(-4rem, -7vh, -2rem) 0 0;
+  }
 }
 
 .ab-mark {
@@ -7424,6 +7448,14 @@ html:not(.dark) .ab-figure-scan {
   letter-spacing: 0.16em;
   line-height: 1.9;
   color: var(--a-faint);
+}
+
+/* The items are adjacent spans with no whitespace between them, which makes a
+   whole list one unbreakable word - on a phone it ran off the right edge.
+   Inline-block gives every item boundary a break opportunity. */
+.ab-dots > span,
+.ab-con-techv > span {
+  display: inline-block;
 }
 
 .ab-fk {

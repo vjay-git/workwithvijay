@@ -82,7 +82,12 @@ export const metadata: Metadata = {
     // google: 'your-verification-code',
   },
   icons: {
-    icon: '/favicon.png',
+    // The C from the wordmark and its cyan dot. SVG first so it stays sharp at
+    // every tab size; the PNG is the fallback for browsers that skip SVG icons.
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.png', type: 'image/png', sizes: '256x256' },
+    ],
     shortcut: '/favicon.png',
     // Opaque ground: iOS composites transparency onto black, which would eat
     // the mark's rounded corners.

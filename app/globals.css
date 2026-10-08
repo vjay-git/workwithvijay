@@ -1179,6 +1179,73 @@ html:not(.dark) .site-cursor-layer {
   transform: scale(calc(1 + var(--cursor-open, 0) * 0.9));
 }
 
+/* --- contact badges ------------------------------------------------------ */
+/* Site-wide, bottom-right: email over WhatsApp. Brand green so WhatsApp reads
+   at a glance; z-index 55 sits over the header (50), under the nav overlay (60) and the
+   intro film (90). Rendered by components/WhatsAppBadge. */
+.wa-stack {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wa-badge {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  color: #fff;
+  background: #25d366;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms ease;
+}
+
+.wa-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+/* Email takes the site's own ink rather than a second brand colour, so the
+   WhatsApp green stays the loud one. */
+.wa-badge-mail {
+  color: #14181a;
+  background: #eef2f4;
+}
+
+.wa-badge-mail:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+}
+
+html:not(.dark) .wa-badge-mail {
+  color: #eef2f4;
+  background: #14181a;
+}
+
+.wa-badge:focus-visible {
+  outline: 2px solid #25d366;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .wa-badge {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-badge,
+  .wa-badge:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
 /* --- boot ----------------------------------------------------------------- */
 @keyframes hero-fade-in {
   from {

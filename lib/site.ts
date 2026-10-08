@@ -20,3 +20,9 @@ export const SITE_HOST = 'collabwithvijay.com'
 export const SITE_NAME = 'COLLAB WITH VIJAY'
 
 export const SITE_TAGLINE = 'Product & AI Engineering Studio'
+
+/** Where every enquiry lands: contact form, about page, floating badge. */
+export const CONTACT_EMAIL = 'gvijayykumar@gmail.com'
+
+/** WhatsApp line, international format without "+" (as wa.me expects). */
+export const WHATSAPP_NUMBER = '919515352618'

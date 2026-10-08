@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import portraitImg from '@/public/portrait.jpg'
+import { CONTACT_EMAIL } from '@/lib/site'
 import AboutGate from './about/AboutGate'
 import { STAGE_DIAGRAMS, CON_ARCH } from './AboutDiagrams'
 import {
@@ -77,7 +78,7 @@ const ORBIT = [
 const STRIP = [
   { k: 'Builds across', v: 'RAG · Agents · Full-stack · Integration' },
   { k: 'Specializes in', v: 'AI systems · Product engineering · Architecture' },
-  { k: 'Contact', v: 'hello@workwithvijay.com', href: 'mailto:hello@workwithvijay.com' },
+  { k: 'Contact', v: CONTACT_EMAIL, href: 'mailto:' + CONTACT_EMAIL },
 ]
 
 /**

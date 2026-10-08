@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { CONTACT_EMAIL } from '@/lib/site'
 
 /**
  * "Initiate the system" - the final stage of the same experience.
@@ -16,7 +17,7 @@ import { useEffect, useRef, useState } from 'react'
  * at least delivers.
  */
 
-const STUDIO_EMAIL = 'hello@workwithvijay.com'
+const STUDIO_EMAIL = CONTACT_EMAIL
 
 const PROMPTS = [
   { n: '01', q: 'What are you building?' },

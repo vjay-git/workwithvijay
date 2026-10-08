@@ -6,6 +6,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import SiteCursor from '@/components/SiteCursor'
+import WhatsAppBadge from '@/components/WhatsAppBadge'
 
 // Display grotesk for the hero's architectural typography. Tight apertures and
 // low stroke contrast hold up at 200px+ where a UI font falls apart.
@@ -133,6 +134,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <WhatsAppBadge />
         </ThemeProvider>
       </body>
     </html>

@@ -1,5 +1,4 @@
-'use client'
-
+import type { Metadata } from 'next'
 import Hero from '@/components/Hero'
 import IntroGate from '@/components/experience/IntroGate'
 import SystemMap from '@/components/SystemMap'
@@ -7,6 +6,11 @@ import StackField from '@/components/StackField'
 import MethodLedger from '@/components/MethodLedger'
 import ClosingCall from '@/components/ClosingCall'
 import ParallaxBackground from '@/components/ParallaxBackground'
+
+export const metadata: Metadata = {
+  // Title and description come from the root layout's defaults.
+  alternates: { canonical: '/' },
+}
 
 export default function Home() {
   return (

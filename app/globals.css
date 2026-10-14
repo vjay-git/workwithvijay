@@ -8773,3 +8773,268 @@ html:not(.dark) .ab-human-img {
     stroke-dashoffset: 0;
   }
 }
+
+/* ===================================================================
+   Service landing pages (/services/[slug])
+   Plain, text-first pages built for search intent. Same ground, ink and
+   accent as the hero so they read as part of the same machine.
+   =================================================================== */
+.svc {
+  --s-bg: #08090b;
+  --s-ink: #eef2f4;
+  --s-dim: rgba(238, 242, 244, 0.64);
+  --s-faint: rgba(238, 242, 244, 0.32);
+  --s-accent: #5ce1e6;
+  --s-hair: rgba(238, 242, 244, 0.09);
+  background: var(--s-bg);
+  color: var(--s-ink);
+  padding: calc(80px + clamp(2.5rem, 7vh, 4.5rem)) 0 clamp(4rem, 10vh, 6rem);
+}
+html:not(.dark) .svc {
+  --s-bg: #f6f7f8;
+  --s-ink: #14181a;
+  --s-dim: rgba(20, 24, 26, 0.68);
+  --s-faint: rgba(20, 24, 26, 0.36);
+  --s-accent: #0097b2;
+  --s-hair: rgba(20, 24, 26, 0.1);
+}
+.svc-inner {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2.75rem);
+}
+.svc a {
+  color: inherit;
+}
+.svc-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--s-faint);
+}
+.svc-crumbs a {
+  text-decoration: none;
+  color: var(--s-dim);
+}
+.svc-crumbs a:hover,
+.svc-crumbs [aria-current] {
+  color: var(--s-accent);
+}
+.svc-head {
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+.svc-title {
+  font-family: var(--font-display), Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 5.6vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin: 0;
+}
+.svc-lede {
+  margin: 1.5rem 0 0;
+  max-width: 40rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--s-dim);
+}
+.svc-lede a {
+  color: var(--s-accent);
+}
+.svc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.75rem;
+  margin-top: 2rem;
+}
+.svc-cta {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.9rem 1.4rem;
+  border: 1px solid var(--s-accent);
+  color: var(--s-accent) !important;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.svc-cta:hover {
+  background: var(--s-accent);
+  color: var(--s-bg) !important;
+}
+.svc-ghost {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--s-dim) !important;
+}
+.svc-ghost:hover {
+  color: var(--s-ink) !important;
+}
+.svc-section {
+  margin-top: clamp(3.5rem, 9vh, 5.5rem);
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--s-hair);
+}
+.svc-h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0 0 1.75rem;
+  font-family: var(--font-display), Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.375rem, 3vw, 1.875rem);
+  letter-spacing: -0.03em;
+}
+.svc-index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--s-accent);
+}
+.svc-problems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+.svc-problems li {
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+  color: var(--s-dim);
+}
+.svc-problems li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 0.6rem;
+  height: 1px;
+  background: var(--s-accent);
+}
+.svc-deliverables {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  /* Hairlines drawn by the cells, not a background showing through gaps, so
+     a short last row leaves empty space instead of a filled block. */
+  border-top: 1px solid var(--s-hair);
+  border-left: 1px solid var(--s-hair);
+}
+.svc-deliverables li {
+  padding: 1.4rem 1.25rem;
+  border-right: 1px solid var(--s-hair);
+  border-bottom: 1px solid var(--s-hair);
+}
+.svc-deliverables h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.svc-deliverables p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--s-dim);
+}
+.svc-stack {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.svc-stack li {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--s-hair);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  color: var(--s-dim);
+}
+.svc-note {
+  margin: 1.5rem 0 0;
+  color: var(--s-dim);
+  line-height: 1.6;
+}
+.svc-note a {
+  color: var(--s-accent);
+}
+.svc-faqs details {
+  border-bottom: 1px solid var(--s-hair);
+}
+.svc-faqs summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1.1rem 2rem 1.1rem 0;
+  position: relative;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.svc-faqs summary::-webkit-details-marker {
+  display: none;
+}
+.svc-faqs summary::after {
+  content: "+";
+  position: absolute;
+  right: 0;
+  top: 1.05rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  color: var(--s-accent);
+}
+.svc-faqs details[open] summary::after {
+  content: "−";
+}
+.svc-faqs details p {
+  margin: 0 0 1.25rem;
+  max-width: 42rem;
+  line-height: 1.7;
+  color: var(--s-dim);
+}
+.svc-close {
+  margin-top: clamp(4rem, 10vh, 6rem);
+  padding: clamp(2rem, 5vw, 3rem);
+  border: 1px solid var(--s-hair);
+}
+.svc-close-title {
+  margin: 0;
+  font-family: var(--font-display), Archivo, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.svc-related {
+  margin-top: 3rem;
+}
+.svc-related ul {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 2rem;
+}
+.svc-related a {
+  text-decoration: none;
+  color: var(--s-dim);
+}
+.svc-related a:hover {
+  color: var(--s-accent);
+}

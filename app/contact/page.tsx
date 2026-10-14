@@ -1,9 +1,17 @@
+import type { Metadata } from 'next'
 import ContactConsole from '@/components/ContactConsole'
 
-export const metadata = {
-  title: 'Contact',
+export const metadata: Metadata = {
+  title: "Contact — Start Your AI Project",
   description:
-    'Tell us what you are building, where you are stuck, or what needs to change. We will figure out the system with you.',
+    "Planning an AI project? Tell us what you're building — RAG, AI agents, chatbots or LLM apps. Email or WhatsApp Vijay directly.",
+  alternates: { canonical: '/contact' },
+  openGraph: {
+    title: "Contact — Start Your AI Project",
+    description: "Planning an AI project? Tell us what you're building — RAG, AI agents, chatbots or LLM apps. Email or WhatsApp Vijay directly.",
+    url: '/contact',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function Contact() {

@@ -21,6 +21,11 @@ export const SITE_NAME = 'COLLAB WITH VIJAY'
 
 export const SITE_TAGLINE = 'Product & AI Engineering Studio'
 
+/** Home city. Drives the local-search page and the business address schema. */
+export const SITE_CITY = 'Hyderabad'
+export const SITE_REGION = 'Telangana'
+export const SITE_COUNTRY = 'IN'
+
 /** Where every enquiry lands: contact form, about page, floating badge. */
 export const CONTACT_EMAIL = 'gvijayykumar@gmail.com'
 

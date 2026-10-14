@@ -1,9 +1,17 @@
+import type { Metadata } from 'next'
 import AboutProfile from '@/components/AboutProfile'
 
-export const metadata = {
-  title: 'About',
+export const metadata: Metadata = {
+  title: 'About Vijay — AI & Full-Stack Engineer',
   description:
-    'The engineer behind the work: a product and AI engineering studio led by Vijay — AI systems, full-stack architecture, backend APIs and enterprise integration.',
+    'Meet Vijay, the engineer behind COLLAB WITH VIJAY: AI systems, RAG, AI agents, full-stack architecture, backend APIs and enterprise integration.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About Vijay — AI & Full-Stack Engineer',
+    description: 'Meet Vijay, the engineer behind COLLAB WITH VIJAY: AI systems, RAG, AI agents, full-stack architecture, backend APIs and enterprise integration.',
+    url: '/about',
+    images: ['/opengraph-image'],
+  },
 }
 
 export default function About() {

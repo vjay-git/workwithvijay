@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
+  // Superseded by /work and /about and linked from nowhere; kept out of the
+  // index so it does not compete with them.
+  robots: { index: false, follow: true },
   title: 'Projects',
   description: 'Case studies and project outcomes from Full Stack & AI Systems Engineer work. Real results, production-ready applications including RAG systems, AI agents, and LLM-powered applications.',
 }

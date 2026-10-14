@@ -80,11 +80,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  // Google Search Console "HTML tag" verification. Set the env var on Netlify
-  // to the content="..." value Search Console gives you, then redeploy.
-  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  // Google Search Console "HTML tag" verification for the
+  // https://collabwithvijay.com property. Not a secret: it is public in the
+  // page head by design. Leave it in place or Search Console loses access.
+  verification: {
+    google: 'Pc4QfoJ1VgVwyc2m0NeH8yHpiTkpaEDkBMzeyNzDTBE',
+  },
   icons: {
     // The C from the wordmark and its cyan dot. SVG first so it stays sharp at
     // every tab size; the PNG is the fallback for browsers that skip SVG icons.

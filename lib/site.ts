@@ -27,7 +27,7 @@ export const SITE_REGION = 'Telangana'
 export const SITE_COUNTRY = 'IN'
 
 /** Where every enquiry lands: contact form, about page, floating badge. */
-export const CONTACT_EMAIL = 'gvijayykumar@gmail.com'
+export const CONTACT_EMAIL = 'hello@collabwithvijay.com'
 
 /** WhatsApp line, international format without "+" (as wa.me expects). */
 export const WHATSAPP_NUMBER = '919515352618'
